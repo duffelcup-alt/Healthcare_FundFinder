@@ -13,7 +13,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site" / "public"
-POLICY_DATE = "2026-11-23"   # change when you edit disclaimer_template.html
+POLICY_DATE = "2026-11-23"  # v1.1   # change when you edit disclaimer_template.html
 
 
 def build() -> Path:
@@ -26,7 +26,10 @@ def build() -> Path:
     email = (cfg.get("defaults") or {}).get("contact_email", "")
     contact = f'<a href="mailto:{h.escape(email)}">{h.escape(email)}</a>' if email else "the site owner"
     latest = data_sorted[0]["last_verified"]
-    page = tpl.replace("__DATA__", json.dumps(data_sorted, ensure_ascii=False)).replace("__CONTACT__", contact)
+    criteria = (ROOT / "data" / "criteria.json").read_text(encoding="utf-8")
+    apps = (ROOT / "data" / "applications.json").read_text(encoding="utf-8")
+    page = (tpl.replace("__DATA__", json.dumps(data_sorted, ensure_ascii=False))
+               .replace("__CRITERIA__", criteria).replace("__APPS__", apps).replace("__CONTACT__", contact))
     (OUT / "index.html").write_text(page, encoding="utf-8")
     disc = (ROOT / "site" / "disclaimer_template.html").read_text(encoding="utf-8")
     disc = disc.replace("__CONTACT__", contact).replace("__DATA_DATE__", latest).replace("__POLICY_DATE__", POLICY_DATE)

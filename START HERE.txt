@@ -8,6 +8,9 @@ scraper's visits to the official funding pages.
    Double-click  open_finder.bat
    The site opens in your browser. It works right away, even without Python.
 
+   Tabs: Find matches, Eligibility (a checklist for every scheme),
+   Applications (application packs for your shortlist), All schemes.
+
 2. CHECK THE SOURCES FOR CHANGES
    Double-click  update_data.bat
    - The first time, it installs what it needs (needs Python, see below).

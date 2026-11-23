@@ -175,6 +175,65 @@ tr:last-child td { border-bottom: 0; }
 .policy p { margin: 0; }
 .card .btn[aria-pressed="true"] { background: var(--hi); border-color: var(--hi); color: #3d2c00; }
 .est-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-right: 6px; }
+/* Eligibility checklist */
+.elig { font-size: .76rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.elig.ok { background: var(--ok-bg); color: var(--ok); }
+.elig.miss { background: var(--bad-bg); color: var(--bad); }
+.elig.open { background: var(--warn-bg); color: var(--warn); }
+details.check { border-top: 1px dashed var(--line); padding-top: 8px; }
+details.check > summary { cursor: pointer; font-weight: 600; font-size: .88rem; color: var(--accent); }
+.crit { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; font-size: .88rem; }
+.crit li { display: grid; grid-template-columns: 22px 1fr; gap: 6px; align-items: start; }
+.crit .ic { font-weight: 800; text-align: center; border-radius: 4px; line-height: 20px; height: 20px; font-size: .8rem; }
+.ic.met { background: var(--ok-bg); color: var(--ok); }
+.ic.miss { background: var(--bad-bg); color: var(--bad); }
+.ic.open, .ic.todo { background: var(--warn-bg); color: var(--warn); }
+.crit .kind { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-left: 6px; }
+.crit .sub { display: block; color: var(--muted); font-size: .8rem; }
+.crit label { display: inline-flex; gap: 6px; align-items: center; font-size: .8rem; color: var(--ink); cursor: pointer; margin-top: 2px; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; font-size: .8rem; }
+details.more { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--paper); }
+details.more > summary { cursor: pointer; font-weight: 600; font-size: .9rem; }
+details.more .qgrid { display: grid; gap: 10px; margin-top: 10px; }
+.q { display: grid; grid-template-columns: minmax(0, 1fr) 104px; gap: 8px; align-items: center; font-size: .86rem; }
+.q select, .q input { width: 100%; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.q.unanswered select { border-color: var(--warn); }
+.group { margin-bottom: 22px; }
+.group h3 { font-family: var(--display); font-size: 1.1rem; margin: 0 0 8px; display: flex; gap: 8px; align-items: center; }
+.erow { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.erow > summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; list-style: none; }
+.erow > summary::-webkit-details-marker { display: none; }
+.erow > summary::before { content: "▸"; color: var(--muted); }
+.erow[open] > summary::before { content: "▾"; }
+.erow > summary b { flex: 1 1 260px; }
+/* Applications */
+.app-intro { max-width: 80ch; color: var(--muted); margin: 0 0 14px; }
+.pf { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px 16px; }
+.pf .field textarea { width: 100%; min-height: 84px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); font: inherit; resize: vertical; }
+.pf .field input { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.pf .field.filled label::after { content: " ✓"; color: var(--ok); }
+.costs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 12px; }
+.costs .total { font-family: var(--display); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.pack { background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--accent); border-radius: 10px; padding: 16px 18px; display: grid; gap: 14px; margin-top: 16px; }
+.pack h3 { font-family: var(--display); font-size: 1.2rem; margin: 0; }
+.pack h4 { margin: 0 0 6px; font-size: .95rem; }
+.pack-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 760px) { .pack-grid { grid-template-columns: minmax(0, 1fr); } }
+.pack ol, .pack ul.docs { margin: 0; padding-left: 20px; font-size: .88rem; display: grid; gap: 4px; }
+.pack ul.docs { list-style: none; padding: 0; }
+.pack ul.docs label { display: flex; gap: 8px; align-items: start; cursor: pointer; }
+.pack ul.docs input { margin-top: 4px; accent-color: var(--accent); }
+.meter { height: 8px; background: var(--idle-bg); border-radius: 999px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: var(--accent); }
+.sec { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.sec h5 { margin: 0; font-size: .92rem; }
+.sec .g { color: var(--muted); font-size: .82rem; margin: 2px 0 6px; }
+.sec .body { white-space: pre-wrap; font-size: .88rem; }
+.sec.missing { border-style: dashed; border-color: var(--warn); }
+.sec.missing .body { color: var(--warn); }
+.calc { background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; font-size: .9rem; display: grid; gap: 4px; }
+.gap-list { margin: 0; padding-left: 18px; font-size: .88rem; color: var(--bad); }
+.othr { font-size: .88rem; color: var(--muted); }
 [hidden] { display: none !important; }
 </style>
 </head>
@@ -188,6 +247,8 @@ tr:last-child td { border-bottom: 0; }
     <nav class="tabs" aria-label="Sections">
       <div class="tablist" role="tablist">
         <button role="tab" id="tab-match" aria-selected="true" aria-controls="view-match">Find matches</button>
+        <button role="tab" id="tab-elig" aria-selected="false" aria-controls="view-elig" tabindex="-1">Eligibility</button>
+        <button role="tab" id="tab-apply" aria-selected="false" aria-controls="view-apply" tabindex="-1">Applications</button>
         <button role="tab" id="tab-browse" aria-selected="false" aria-controls="view-browse" tabindex="-1">All schemes</button>
       </div>
       <a class="navlink" href="updates.html">Data updates</a>
@@ -275,6 +336,11 @@ tr:last-child td { border-bottom: 0; }
         <label for="budget">Project budget (€, optional)</label>
         <input type="number" id="budget" min="0" step="10000" value="300000">
       </div>
+      <details class="more" id="more-q">
+        <summary>Eligibility questions <span class="elig open" id="unanswered-count" hidden></span></summary>
+        <p class="hint" style="margin:8px 0 0">Used for the eligibility checklists. “Not sure” leaves a point open.</p>
+        <div class="qgrid" id="qgrid"></div>
+      </details>
       <div class="btnrow">
         <button type="button" class="btn ghost small" id="reset">Reset example</button>
       </div>
@@ -303,6 +369,38 @@ tr:last-child td { border-bottom: 0; }
       </div>
     </div>
   </div>
+</section>
+
+<section id="view-elig" role="tabpanel" aria-labelledby="tab-elig" hidden>
+  <div class="section-h" style="margin-top:0">
+    <h3>Eligibility checklist for every scheme</h3>
+    <p>Based on your profile and the eligibility questions in <button type="button" class="linkbtn" data-ask="">Find matches</button></p>
+  </div>
+  <div class="summary" id="elig-summary"></div>
+  <div class="filters">
+    <div class="field"><label for="e-level">Level</label>
+      <select id="e-level"><option value="">All levels</option><option>Federal</option><option>Flanders</option><option>Brussels</option><option>Wallonia</option></select></div>
+    <div class="field"><label for="e-scope">Show</label>
+      <select id="e-scope"><option value="all">All 27 schemes</option><option value="short">Shortlist only</option><option value="avail">Only schemes open now</option></select></div>
+  </div>
+  <div id="elig-groups"></div>
+</section>
+
+<section id="view-apply" role="tabpanel" aria-labelledby="tab-apply" hidden>
+  <div class="section-h" style="margin-top:0">
+    <h3>Application packs</h3>
+    <p>For schemes on your shortlist that have an application to write</p>
+  </div>
+  <p class="app-intro">Fill in your project once below. Each pack reuses it, ordered by how that scheme assesses applications, and lists the steps, documents and gaps. Everything stays in this browser. Submitting is always done by you on the official portal.</p>
+  <details class="panel" id="pf-panel" open>
+    <summary style="cursor:pointer"><b>Your project file</b> <span class="hint" id="pf-progress"></span></summary>
+    <div class="btnrow" style="margin-top:10px"><button type="button" class="btn ghost small" id="pf-example">Load example project</button><button type="button" class="btn ghost small" id="pf-clear">Clear project file</button></div>
+    <div class="pf" id="pf" style="margin-top:12px"></div>
+    <h4 style="margin:16px 0 0">Project costs (€)</h4>
+    <div class="costs" id="costs"></div>
+    <p class="hint" id="cost-note" style="margin:8px 0 0"></p>
+  </details>
+  <div id="packs"></div>
 </section>
 
 <section id="view-browse" role="tabpanel" aria-labelledby="tab-browse" hidden>
@@ -335,7 +433,7 @@ tr:last-child td { border-bottom: 0; }
 
 <footer class="policy">
   <p><b>Disclaimer.</b> This tool gives general information about public funding schemes in Belgium. It is not legal, tax, financial or grant advice, and a match or estimate is no guarantee that you are eligible or will receive funding. The data comes from official sources and was last checked on <span class="verified-date"></span>, but schemes can change, be suspended or close at any time. Always confirm on the official page and with the granting agency. This tool is independent and not affiliated with VLAIO, Innoviris, SPW, the federal government or any other funding body.</p>
-  <p><b>Your data.</b> What you type in the profile stays in your browser and is not sent anywhere. Your shortlist is saved only in this browser.</p>
+  <p><b>Your data.</b> Your profile, answers, shortlist and project file stay in this browser and are not sent anywhere. Application packs are drafts to help you prepare: you submit on the official portal and remain responsible for your application.</p>
   <p><a href="disclaimer.html">Full disclaimer and privacy</a> · Found an error? Email __CONTACT__</p>
 </footer>
 </main>
@@ -343,6 +441,8 @@ tr:last-child td { border-bottom: 0; }
 
 <script>
 const DATA = __DATA__;
+const CRITERIA = __CRITERIA__;
+const APPDATA = __APPS__;
 /* Escape anything that comes from the data before it goes into HTML. */
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const safeUrl = u => /^https?:\/\//i.test(String(u || "")) ? esc(u) : "#";
@@ -389,7 +489,8 @@ function readProfile(){
     focus: f.querySelector("#focus").value,
     needs: [...f.querySelectorAll('input[name="need"]:checked')].map(i=>i.value),
     consortium: f.querySelector("#c-cons").checked,
-    uni: f.querySelector("#c-uni").checked,
+    uni: f.querySelector("#c-uni").checked ? "yes" : "no",
+    ...readQuestions(),
     budget: Math.max(0, parseFloat(f.querySelector("#budget").value) || 0)
   };
 }
@@ -410,7 +511,7 @@ function evaluate(s, p){
   if (s.max_company_age_years) { why.push(`Your company (${p.age} yr) is within the ${s.max_company_age_years}-year limit`); score += 5; }
   // who applies
   if (s.applicant.startsWith("University-led")) {
-    if (!p.uni) return null;
+    if (p.uni !== "yes") return null;
     why.push("You work with a university, which leads this scheme"); score -= 5;
   }
   if (s.consortium_required === "Yes" && !s.applicant.startsWith("University-led")) {
@@ -472,8 +573,10 @@ function estimate(s, p){
   }
 }
 
+let currentProfile = null;
 function render(){
   const p = readProfile();
+  currentProfile = p;
   const res = DATA.map(s => evaluate(s, p)).filter(Boolean).sort((a,b)=> b.available - a.available || b.score - a.score);
   const now = res.filter(r=>r.available), later = res.filter(r=>!r.available);
   const health = now.filter(r=>r.s.health_specific==="Yes").length;
@@ -494,10 +597,13 @@ function render(){
       <span class="pill ${STATUS_CLASS[r.s.status] || "st-idle"}">${esc(r.s.status)}</span>
     </div>`).join("") : `<div class="empty">Nothing on hold for this profile.</div>`;
   renderShortlist();
+  renderElig(p);
+  renderProjectMeta(p);
+  renderPacks(p);
 }
 
 function card(r){
-  const s = r.s, inList = shortlist.includes(s.id);
+  const s = r.s, inList = shortlist.includes(s.id), e = eligibility(s, currentProfile);
   const amount = s.amount_max_eur ? (s.amount_min_eur && s.amount_min_eur !== s.amount_max_eur ? `${eur(s.amount_min_eur)} – ${eur(s.amount_max_eur)}` : `up to ${eur(s.amount_max_eur)}`) : (s.amount_min_eur ? `from ${eur(s.amount_min_eur)}` : "Not capped / not published");
   return `
   <article class="card">
@@ -510,6 +616,7 @@ function card(r){
           <span class="chip">${esc(s.instrument_type)}</span>
           ${s.health_specific==="Yes" ? '<span class="chip health">Healthcare only</span>' : ""}
           <span class="pill ${STATUS_CLASS[s.status] || "st-idle"}">${esc(s.status)}</span>
+          <span class="elig ${e.status}">${esc(e.label)}</span>
         </div>
       </div>
       <div class="score"><b>${r.score}</b><span>fit score</span></div>
@@ -525,6 +632,7 @@ function card(r){
       <div><div class="lbl">Why it fits</div><ul>${r.why.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
       <div><div class="lbl">Watch out</div><ul>${(r.warn.length? r.warn : ["Nothing flagged"]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
     </div>
+    <details class="check"><summary>Eligibility checklist (${e.list.filter(c => c.st === "met").length} of ${e.list.length} ticked)</summary>${checklistHTML(s, e)}</details>
     <div class="card-foot">
       <span>${esc(s.status_note)}</span>
       <span class="btnrow">
@@ -578,6 +686,18 @@ document.addEventListener("click", e => {
     panel.classList.remove("flash"); void panel.offsetWidth; panel.classList.add("flash");
     return;
   }
+  const ask = e.target.closest("[data-ask]");
+  if (ask) { askField(ask.dataset.ask); return; }
+  const op = e.target.closest("[data-openpack]");
+  if (op) { const id = op.dataset.openpack; if (!shortlist.includes(id)) { shortlist = [...shortlist, id]; saveShortlist(); render(); } go("apply"); const el = document.getElementById("pack-" + id); if (el) el.scrollIntoView({block: "start"}); return; }
+  const pg = e.target.closest("[data-pfgo]");
+  if (pg) { const pfp = document.getElementById("pf-panel"); pfp.open = true; const el = document.getElementById("pf-" + pg.dataset.pfgo); el.scrollIntoView({block: "center"}); el.focus(); return; }
+  const cp = e.target.closest("[data-copypack]");
+  if (cp) { const t = packText(cp.dataset.copypack, currentProfile);
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Draft copied"), () => toast(copyFallback(t) ? "Draft copied" : "Copying was blocked by the browser")); return; }
+  const wd = e.target.closest("[data-wordpack]");
+  if (wd) { downloadWord(wd.dataset.wordpack, currentProfile); return; }
+  if (e.target.id === "use-total") { document.getElementById("budget").value = Math.round(projectTotal()); render(); toast("Project budget updated"); return; }
   const rm = e.target.closest("[data-remove]");
   if (rm) { shortlist = shortlist.filter(x=>x!==rm.dataset.remove); saveShortlist(); render(); document.getElementById("copy-shortlist").focus(); }
 });
@@ -587,11 +707,393 @@ document.getElementById("copy-shortlist").addEventListener("click", async () => 
   try { await navigator.clipboard.writeText(text); toast("Shortlist copied"); }
   catch(e) { toast(copyFallback(text) ? "Shortlist copied" : "Copying was blocked by the browser"); }
 });
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset.tick) { if (t.checked) manualTicks[t.dataset.tick] = true; else delete manualTicks[t.dataset.tick]; saveTicks(); render(); }
+  if (t.dataset.doc) { if (t.checked) docTicks[t.dataset.doc] = true; else delete docTicks[t.dataset.doc]; saveDocs(); render(); }
+});
+document.getElementById("view-apply").addEventListener("input", e => {
+  const k = e.target.dataset.pf; if (!k) return;
+  project[k] = e.target.value; saveProject(); render();
+});
+["e-level", "e-scope"].forEach(id => document.getElementById(id).addEventListener("input", () => renderElig(currentProfile)));
 const form = document.getElementById("profile");
 form.addEventListener("input", render);
 form.addEventListener("change", render);
 form.addEventListener("submit", e => e.preventDefault());
 document.getElementById("reset").addEventListener("click", () => { form.reset(); render(); });
+
+
+/* ===================== Eligibility ===================== */
+const QUESTIONS = [
+  ["legal_entity", "A company with legal personality (BV/SRL, NV/SA)?", "yes"],
+  ["in_difficulty", "In financial difficulty (EU definition)?", "no"],
+  ["listed", "Listed on a stock exchange?", "no"],
+  ["profits_distributed", "Has it ever distributed profits?", "no"],
+  ["from_merger", "Created by a merger or acquisition, or took over another company's activity?", "no"],
+  ["prior_vlaio_rd", "Received a VLAIO R&D subsidy before?", "unknown"],
+  ["researchers", "Employs researchers (master's or PhD) on R&D?", "yes"],
+  ["ip_income", "Earns income from patents or software?", "no"],
+  ["project_started", "Has the project already started (costs made)?", "no"],
+  ["cofund", "Can you finance your own share of the costs?", "yes"],
+  ["tax_compliant", "Up to date with VAT and social security?", "yes"],
+  ["prior_public_funding", "Has this project already had public funding?", "no"],
+  ["clinical_tests", "Is the work you'd outsource preclinical or clinical testing?", "unknown"],
+  ["biovia_member", "Member of Biovia (Flemish health cluster)?", "unknown"],
+];
+const NUM_QUESTIONS = [
+  ["partners", "Partner organisations besides you", 0],
+  ["months", "Project duration (months)", 12],
+];
+const FIELD_LABEL = Object.fromEntries([...QUESTIONS, ...NUM_QUESTIONS].map(q => [q[0], q[1]]));
+Object.assign(FIELD_LABEL, {region: "Where is your main site?", size: "Company size", age: "Year founded",
+  budget: "Project budget", focus: "Field", uni: "We work with a university or research centre"});
+const FIELD_INPUT = {region: "r-fl", size: "size", age: "founded", budget: "budget", focus: "focus", uni: "c-uni"};
+
+(function buildQuestions(){
+  const g = document.getElementById("qgrid");
+  g.innerHTML = QUESTIONS.map(([k, label, def]) => `
+    <div class="q" id="qrow-${k}"><label for="q-${k}">${esc(label)}</label>
+      <select id="q-${k}" data-q="${k}">
+        <option value="yes"${def==="yes"?" selected":""}>Yes</option>
+        <option value="no"${def==="no"?" selected":""}>No</option>
+        <option value="unknown"${def==="unknown"?" selected":""}>Not sure</option>
+      </select></div>`).join("") + NUM_QUESTIONS.map(([k, label, def]) => `
+    <div class="q" id="qrow-${k}"><label for="q-${k}">${esc(label)}</label>
+      <input type="number" id="q-${k}" data-q="${k}" min="0" value="${def}"></div>`).join("");
+})();
+
+function readQuestions(){
+  const out = {};
+  QUESTIONS.forEach(([k]) => out[k] = document.getElementById("q-" + k).value);
+  NUM_QUESTIONS.forEach(([k]) => { const v = parseInt(document.getElementById("q-" + k).value, 10); out[k] = isNaN(v) ? null : Math.max(0, v); });
+  return out;
+}
+
+let manualTicks = {};
+try { manualTicks = JSON.parse(localStorage.getItem("hff-manual") || "{}"); } catch(e) {}
+const saveTicks = () => { try { localStorage.setItem("hff-manual", JSON.stringify(manualTicks)); } catch(e) {} };
+
+/* Returns met | miss | open (needs an answer) | todo (applicant checks it) plus an optional note. */
+function evalRule(r, p, sid, idx){
+  const [op, f] = r;
+  const v = p[f];
+  const blankNum = (f === "budget" || f === "months") && !v;
+  switch (op) {
+    case "in": return {st: r[2].includes(v) ? "met" : "miss"};
+    case "is": return v === "unknown" || v == null ? {st: "open"} : {st: v === r[2] ? "met" : "miss"};
+    case "min": return blankNum || v == null ? {st: "open"} : {st: v >= r[2] ? "met" : "miss"};
+    case "max": return blankNum || v == null ? {st: "open"} : {st: v <= r[2] ? "met" : "miss"};
+    case "range": return blankNum || v == null ? {st: "open"} : {st: v >= r[2] && v <= r[3] ? "met" : "miss"};
+    case "manual": return {st: manualTicks[sid + ":" + idx] ? "met" : "todo"};
+    case "calc": return calcRule(f, p);
+  }
+  return {st: "open"};
+}
+function calcRule(name, p){
+  const b = p.budget;
+  if (name === "yic") return {st: (["micro","small"].includes(p.size) && p.age < 10) ? "met" : "miss"};
+  if (name === "vl02") {
+    if (!b) return {st: "open", note: "Enter a project budget"};
+    const est = b * ((p.size === "micro" || p.size === "small") ? 0.45 : 0.25);
+    if (b * 0.6 < 25000) return {st: "miss", note: `Even at the maximum rate the support is below ${eur(25000)}`};
+    return est >= 25000 ? {st: "met", note: `Estimated support about ${eur(Math.min(est, 3000000))}`} : {st: "open", note: "Depends on the bonuses you qualify for"};
+  }
+  if (name === "vl03") {
+    if (!b) return {st: "open", note: "Enter a project budget"};
+    if (b * 0.6 < 100000) return {st: "miss", note: `Even at 60% the support is below ${eur(100000)}`};
+    return b * 0.25 >= 100000 ? {st: "met"} : {st: "open", note: "Depends on the rate VLAIO grants (25-60%)"};
+  }
+  if (name === "wa02") {
+    const sub = projectCosts().c_subcontract || 0;
+    if (!sub) return {st: "open", note: "Enter subcontracting costs in your project file (Applications tab)"};
+    const aid = sub * 0.75;
+    return aid <= 200000 ? {st: "met", note: `75% of ${eur(sub)} = ${eur(aid)}`} : {st: "miss", note: `75% of ${eur(sub)} = ${eur(aid)}, above the ${eur(200000)} ceiling`};
+  }
+  return {st: "open"};
+}
+function eligibility(s, p){
+  const list = (CRITERIA[s.id] || []).map((c, i) => ({...c, i, ...evalRule(c.r, p, s.id, i)}));
+  const keyMiss = list.filter(c => c.key && c.st === "miss").length;
+  const keyOpen = list.filter(c => c.key && (c.st === "open" || c.st === "todo")).length;
+  const status = keyMiss ? "miss" : keyOpen ? "open" : "ok";
+  const notOpen = !AVAILABLE.includes(s.status);
+  const label = keyMiss ? `Misses ${keyMiss} key criteri${keyMiss === 1 ? "on" : "a"}`
+    : keyOpen ? `${keyOpen} point${keyOpen === 1 ? "" : "s"} to check` : notOpen ? "Ticks all boxes, but not open now" : "Ticks all boxes";
+  return {list, status, label, keyMiss, keyOpen};
+}
+const ICON = {met: "✓", miss: "✗", open: "?", todo: "?"};
+function checklistHTML(s, e){
+  return `<ul class="crit">${e.list.map(c => {
+    const field = c.r[0] !== "manual" && c.r[0] !== "calc" ? c.r[1] : null;
+    let sub = "";
+    if (c.note) sub += `<span class="sub">${esc(c.note)}</span>`;
+    if (c.st === "open" && field) sub += `<span class="sub">Not answered: <button type="button" class="linkbtn" data-ask="${esc(field)}">${esc(FIELD_LABEL[field] || field)}</button></span>`;
+    if (c.r[0] === "manual") sub += `<label><input type="checkbox" data-tick="${esc(s.id)}:${c.i}"${c.st === "met" ? " checked" : ""}> I checked this and it applies</label>`;
+    return `<li><span class="ic ${c.st}" aria-label="${c.st}">${ICON[c.st]}</span><span>${esc(c.t)}<span class="kind">${c.key ? "key" : "good to know"}</span>${sub}</span></li>`;
+  }).join("")}</ul>`;
+}
+function askField(field){
+  go("match");
+  const more = document.getElementById("more-q");
+  let el = null;
+  if (field && document.getElementById("q-" + field)) { more.open = true; el = document.getElementById("q-" + field); }
+  else if (field && FIELD_INPUT[field]) el = document.getElementById(FIELD_INPUT[field]);
+  else more.open = true;
+  (el || more).scrollIntoView({block: "center"});
+  if (el) el.focus();
+}
+
+function renderElig(p){
+  const lv = document.getElementById("e-level").value, scope = document.getElementById("e-scope").value;
+  const rows = DATA.filter(s => (!lv || s.level === lv) && (scope !== "short" || shortlist.includes(s.id)) && (scope !== "avail" || AVAILABLE.includes(s.status)))
+    .map(s => ({s, e: eligibility(s, p)}));
+  const groups = [["ok", "Ticks all key boxes"], ["open", "Points to check or answer"], ["miss", "Misses key criteria"]];
+  const count = k => rows.filter(r => r.e.status === k).length;
+  document.getElementById("elig-summary").innerHTML = groups.map(([k, t]) =>
+    `<div class="stat"><b>${count(k)}</b><span>${t.toLowerCase()}</span></div>`).join("");
+  document.getElementById("elig-groups").innerHTML = rows.length ? groups.map(([k, t]) => {
+    const avail = r => AVAILABLE.includes(r.s.status) ? 0 : 1;
+    const g = rows.filter(r => r.e.status === k).sort((a, b) => avail(a) - avail(b) || a.e.keyMiss - b.e.keyMiss || a.e.keyOpen - b.e.keyOpen);
+    if (!g.length) return "";
+    return `<div class="group"><h3><span class="elig ${k}">${g.length}</span> ${t}</h3>${g.map(({s, e}) => `
+      <details class="erow" data-sid="${esc(s.id)}"${openRows.has(s.id) ? " open" : ""}>
+        <summary><b>${esc(s.scheme_name)}</b> <span class="chip lvl">${esc(s.level)}</span>
+          <span class="pill ${STATUS_CLASS[s.status] || "st-idle"}">${esc(s.status)}</span>
+          <span class="elig ${e.status}">${esc(e.label)}</span></summary>
+        ${checklistHTML(s, e)}
+        <p class="othr" style="margin:8px 0 0"><a href="${safeUrl(s.source_url)}" target="_blank" rel="noopener">Official conditions</a>${APPDATA.apps[s.id] ? ` · <button type="button" class="linkbtn" data-openpack="${esc(s.id)}">Open application pack</button>` : ""}</p>
+      </details>`).join("")}</div>`;
+  }).join("") : `<div class="empty">No schemes for this selection.</div>`;
+  const unanswered = QUESTIONS.filter(([k]) => p[k] === "unknown").length;
+  const badge = document.getElementById("unanswered-count");
+  badge.hidden = !unanswered; badge.textContent = `${unanswered} not sure`;
+  QUESTIONS.forEach(([k]) => document.getElementById("qrow-" + k).classList.toggle("unanswered", p[k] === "unknown"));
+}
+const openRows = new Set();
+document.addEventListener("toggle", e => {
+  const d = e.target;
+  if (d.classList && d.classList.contains("erow")) d.open ? openRows.add(d.dataset.sid) : openRows.delete(d.dataset.sid);
+}, true);
+
+/* ===================== Application packs ===================== */
+let project = {};
+try { project = JSON.parse(localStorage.getItem("hff-project") || "{}"); } catch(e) {}
+let docTicks = {};
+try { docTicks = JSON.parse(localStorage.getItem("hff-docs") || "{}"); } catch(e) {}
+const saveProject = () => { try { localStorage.setItem("hff-project", JSON.stringify(project)); } catch(e) {} };
+const saveDocs = () => { try { localStorage.setItem("hff-docs", JSON.stringify(docTicks)); } catch(e) {} };
+const LONG_FIELDS = APPDATA.fields.filter(f => f[2] !== "date" && f[0] !== "title");
+function projectCosts(){
+  const out = {}; APPDATA.costs.forEach(([k]) => out[k] = Math.max(0, parseFloat(project[k]) || 0)); return out;
+}
+const projectTotal = () => Object.values(projectCosts()).reduce((a, b) => a + b, 0);
+
+(function buildProjectFile(){
+  document.getElementById("pf").innerHTML = APPDATA.fields.map(([k, label, type]) => `
+    <div class="field" id="pfw-${k}"><label for="pf-${k}">${esc(label)}</label>
+      ${type === "long" ? `<textarea id="pf-${k}" data-pf="${k}"></textarea>` : `<input type="${type === "date" ? "date" : "text"}" id="pf-${k}" data-pf="${k}">`}</div>`).join("");
+  document.getElementById("costs").innerHTML = APPDATA.costs.map(([k, label]) => `
+    <div class="field"><label for="pf-${k}">${esc(label)}</label><input type="number" min="0" step="1000" id="pf-${k}" data-pf="${k}"></div>`).join("") +
+    `<div class="field"><span class="lbl">Total</span><span class="total" id="cost-total">€0</span></div>`;
+  document.querySelectorAll("[data-pf]").forEach(el => { el.value = project[el.dataset.pf] ?? ""; });
+})();
+
+function renderProjectMeta(p){
+  const filled = APPDATA.fields.filter(([k]) => String(project[k] || "").trim()).length;
+  document.getElementById("pf-progress").textContent = `· ${filled} of ${APPDATA.fields.length} answers filled in`;
+  APPDATA.fields.forEach(([k]) => document.getElementById("pfw-" + k).classList.toggle("filled", !!String(project[k] || "").trim()));
+  const total = projectTotal();
+  document.getElementById("cost-total").textContent = eur(total);
+  const note = document.getElementById("cost-note");
+  if (total && Math.abs(total - p.budget) > 1) {
+    note.innerHTML = `Your costs add up to ${eur(total)}, but the project budget in Find matches is ${eur(p.budget)}. <button type="button" class="linkbtn" id="use-total">Use ${eur(total)} as the project budget</button>`;
+  } else note.textContent = total ? "Matches the project budget used for matching and eligibility." : "Enter costs to get budget calculations per scheme.";
+}
+
+function packCalc(id, p){
+  const total = projectTotal() || p.budget, small = p.size === "micro" || p.size === "small", L = [], gaps = [];
+  if (!total) return {html: "<div>Enter your project costs to see the calculation.</div>", gaps: ["No project costs entered"]};
+  if (id === "VL-01") {
+    L.push(`Fixed grant: <b>${eur(50000)}</b>. Your project costs: ${eur(total)}.`);
+    if (total < 70000) gaps.push(`Effort must be at least one person-year or ${eur(70000)}; your costs are ${eur(total)}`);
+    if (p.months && (p.months < 6 || p.months > 12)) gaps.push(`Duration must be 6-12 months; yours is ${p.months}`);
+  }
+  if (id === "VL-02") {
+    const rate = small ? 0.45 : 0.25, aid = Math.min(total * rate, 3000000);
+    L.push(`Estimated support: <b>${eur(aid)}</b> (${Math.round(rate * 100)}% of ${eur(total)}${small ? ": 25% base + 20% small-company bonus" : ": 25% base"}; up to 50%, or 60% with interregional/international cooperation).`);
+    L.push(`Valorisation needed in Flanders within 5 years: at least <b>${eur(aid * 10)}</b> (10x the support).`);
+    if (aid < 25000) gaps.push(`Support of ${eur(aid)} is below the ${eur(25000)} minimum`);
+    if (p.months > 36) gaps.push(`Duration of ${p.months} months is above 36`);
+  }
+  if (id === "VL-03") {
+    const lo = Math.min(total * 0.25, 3000000), hi = Math.min(total * 0.6, 3000000);
+    L.push(`Estimated support: between <b>${eur(lo)}</b> and <b>${eur(hi)}</b> (25-60% of ${eur(total)}).`);
+    if (hi < 100000) gaps.push(`Even at 60% the support is below the ${eur(100000)} minimum`);
+    if (p.months > 36) gaps.push(`Duration of ${p.months} months is above 36`);
+  }
+  if (id === "VL-04") {
+    L.push(`Rates depend on the VLAIO instrument Biovia advises and on each partner's type (research partners up to 100% under ICON). Call 2026.2 budget: ${eur(8000000)} in total.`);
+    if ((p.partners || 0) < 2) gaps.push("A consortium needs at least 3 partners: you plus 2 or more");
+  }
+  if (id === "WA-01") {
+    const g = {micro: .7, small: .7, medium: .6, large: .5}[p.size], a = {micro: .55, small: .55, medium: .45, large: .35}[p.size];
+    L.push(`Industrial research (grant): <b>${Math.round(g * 100)}%</b>, i.e. up to <b>${eur(total * g)}</b> if the whole project is industrial research.`);
+    L.push(`Experimental development (repayable advance): <b>${Math.round(a * 100)}%</b>, i.e. up to <b>${eur(total * a)}</b>.`);
+    L.push("Effective cooperation can add 10 points (grant) or 15 points (advance).");
+  }
+  if (id === "WA-02") {
+    const sub = projectCosts().c_subcontract;
+    if (!sub) gaps.push("Enter the subcontracting cost: this scheme only covers work done by the research provider");
+    else {
+      L.push(`Grant: 75% of ${eur(sub)} = <b>${eur(sub * 0.75)}</b>.`);
+      if (sub * 0.75 > 200000) gaps.push(`${eur(sub * 0.75)} is above the ${eur(200000)} ceiling per company over 3 years`);
+    }
+    if (p.clinical_tests === "yes") gaps.push("Preclinical and clinical tests are excluded from this scheme");
+    if (p.months && (p.months < 6 || p.months > 24)) gaps.push(`A study runs 6-24 months; yours is ${p.months}`);
+  }
+  return {html: L.map(x => `<div>${x}</div>`).join(""), gaps};
+}
+
+function docApplies(d, p){
+  if (!d.if) return true;
+  if (d.if === "starter") return p.age < 3;
+  if (d.if === "difficulty") return p.in_difficulty !== "no";
+  if (d.if === "partners") return (p.partners || 0) > 0;
+  return true;
+}
+function sectionText(sec){
+  const filled = sec.f.filter(k => String(project[k] || "").trim());
+  const label = k => (APPDATA.fields.find(f => f[0] === k) || [k, k])[1];
+  const text = filled.map(k => (sec.f.length > 1 ? label(k) + ":\n" : "") + String(project[k]).trim()).join("\n\n");
+  return {text, missing: sec.f.filter(k => !filled.includes(k)), label};
+}
+function packModel(id, p){
+  const s = DATA.find(d => d.id === id), a = APPDATA.apps[id], e = eligibility(s, p);
+  const secs = a.sections.map(sec => ({...sec, ...sectionText(sec)}));
+  const docs = a.docs.filter(d => docApplies(d, p));
+  const calc = packCalc(id, p);
+  const ready = secs.filter(x => !x.missing.length).length;
+  const gaps = [...calc.gaps];
+  e.list.filter(c => c.key && c.st === "miss").forEach(c => gaps.push("Eligibility: " + c.t));
+  e.list.filter(c => c.key && (c.st === "open" || c.st === "todo")).forEach(c => gaps.push("Still to check: " + c.t));
+  const missingFields = [...new Set(secs.flatMap(x => x.missing))];
+  if (missingFields.length) gaps.push(`${missingFields.length} answer${missingFields.length === 1 ? "" : "s"} still empty in your project file: ` +
+    missingFields.map(k => (APPDATA.fields.find(f => f[0] === k) || [k, k])[1]).join("; "));
+  return {s, a, e, secs, docs, calc, ready, gaps};
+}
+
+function renderPacks(p){
+  const el = document.getElementById("packs");
+  const ids = shortlist.filter(id => APPDATA.apps[id]);
+  const others = shortlist.filter(id => !APPDATA.apps[id]).map(id => DATA.find(d => d.id === id)).filter(Boolean);
+  const notListed = Object.keys(APPDATA.apps).filter(id => !shortlist.includes(id)).map(id => DATA.find(d => d.id === id));
+  let html = "";
+  if (!ids.length) html += `<div class="empty" style="margin-top:16px">No scheme with an application pack is on your shortlist yet. Add one below.</div>`;
+  html += ids.map(id => {
+    const m = packModel(id, p), pct = Math.round(100 * m.ready / m.secs.length);
+    return `<article class="pack" id="pack-${esc(id)}">
+      <div class="card-head"><div><h3>${esc(m.s.scheme_name)}</h3>
+        <div class="meta"><span class="chip lvl">${esc(m.s.level)}</span><span class="pill ${STATUS_CLASS[m.s.status] || "st-idle"}">${esc(m.s.status)}</span><span class="elig ${m.e.status}">${esc(m.e.label)}</span></div></div>
+        <div class="score"><b>${pct}%</b><span>sections ready</span></div></div>
+      <div class="meter" aria-hidden="true"><span style="width:${pct}%"></span></div>
+      ${m.gaps.length ? `<div><h4>What's missing</h4><ul class="gap-list">${m.gaps.map(g => `<li>${esc(g)}</li>`).join("")}</ul></div>` : `<p class="elig ok" style="justify-self:start">Nothing missing: ready to review and submit on the official portal</p>`}
+      <div class="calc">${m.calc.html}</div>
+      <div class="pack-grid">
+        <div><h4>Steps</h4><ol>${m.a.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+          <p class="othr"><b>Where:</b> ${esc(m.a.portal)}<br><b>Contact:</b> ${esc(m.a.contact)}<br><b>Limits:</b> ${esc(m.a.limits)}</p></div>
+        <div><h4>Documents (${m.docs.filter(d => docTicks[id + ":" + d.t]).length} of ${m.docs.length} ready)</h4>
+          <ul class="docs">${m.docs.map(d => `<li><label><input type="checkbox" data-doc="${esc(id)}:${esc(d.t)}"${docTicks[id + ":" + d.t] ? " checked" : ""}> ${esc(d.t)}</label></li>`).join("")}</ul></div>
+      </div>
+      <details class="check"><summary>Eligibility checklist</summary>${checklistHTML(m.s, m.e)}</details>
+      <div><h4>Draft, in the order this scheme assesses it</h4><div style="display:grid;gap:8px">
+        ${m.secs.map((x, i) => `<div class="sec${x.missing.length ? " missing" : ""}"><h5>${i + 1}. ${esc(x.h)}</h5>${x.g ? `<p class="g">${esc(x.g)}</p>` : ""}
+          <div class="body">${x.text ? esc(x.text) : ""}${x.missing.length ? `${x.text ? "\n\n" : ""}Missing: ${x.missing.map(k => `<button type="button" class="linkbtn" data-pfgo="${esc(k)}">${esc(x.label(k))}</button>`).join(", ")}` : ""}</div></div>`).join("")}
+      </div></div>
+      <div class="card-foot"><span><a href="${safeUrl(m.a.source)}" target="_blank" rel="noopener">Official application information</a></span>
+        <span class="btnrow"><button type="button" class="btn ghost small" data-copypack="${esc(id)}">Copy text</button><button type="button" class="btn small" data-wordpack="${esc(id)}">Download Word file</button></span></div>
+    </article>`;
+  }).join("");
+  if (others.length) html += `<div class="panel" style="margin-top:16px"><h4 style="margin:0 0 6px">Also on your shortlist, without a pack</h4><ul class="othr" style="margin:0;padding-left:18px">${others.map(s => `<li><b>${esc(s.scheme_name)}</b>: ${esc(noPackReason(s))}</li>`).join("")}</ul></div>`;
+  if (notListed.length) html += `<div class="panel" style="margin-top:16px"><h4 style="margin:0 0 6px">Other schemes with an application pack</h4><div class="btnrow">${notListed.map(s => `<button type="button" class="btn ghost small" data-toggle="${esc(s.id)}">+ ${esc(s.scheme_name)}</button>`).join("")}</div></div>`;
+  el.innerHTML = html;
+}
+function noPackReason(s){
+  if (s.instrument_type === "Tax incentive") return "a tax measure: claimed through payroll, the tax return or by your investors, so there's no application to write.";
+  if (!AVAILABLE.includes(s.status)) return `currently ${s.status.toLowerCase()}, so there's nothing to apply for now.`;
+  if (s.instrument_type.startsWith("Mandate")) return "applied for by the university with you as partner.";
+  return "no pack yet; use the official page for the application steps.";
+}
+function packText(id, p){
+  const m = packModel(id, p);
+  const L = [`${m.s.scheme_name}: application draft`, `${project.title || "Untitled project"} · prepared ${fmtDay(TODAY)}`,
+    "Draft prepared with the Healthcare Startup Funding Finder. Information only, not advice: check the official requirements before submitting.", ""];
+  m.secs.forEach((x, i) => { L.push(`${i + 1}. ${x.h}`); if (x.g) L.push(`[Assessors look for: ${x.g}]`); L.push(x.text || "[To write]", ""); });
+  L.push("Budget", m.calc.html.replace(/<\/div>/g, "\n").replace(/<[^>]+>/g, "").trim(), "");
+  L.push("Documents to prepare", ...m.docs.map(d => `- ${d.t}`), "", "Steps", ...m.a.steps.map((x, i) => `${i + 1}. ${x}`));
+  if (m.gaps.length) L.push("", "Still missing", ...m.gaps.map(g => `- ${g}`));
+  L.push("", `Official information: ${m.a.source}`);
+  return L.join("\n");
+}
+function packWordHTML(id, p){
+  const m = packModel(id, p), para = t => esc(t).replace(/\n/g, "<br>");
+  return `<html><head><meta charset="utf-8"><title>${esc(m.s.scheme_name)}</title>
+<style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4}h1{font-size:18pt}h2{font-size:13pt;margin-top:18pt}.g{color:#555;font-style:italic}.todo{color:#9a6400}</style></head><body>
+<h1>${esc(project.title || "Untitled project")}</h1>
+<p><b>Application draft for:</b> ${esc(m.s.scheme_name)} (${esc(m.s.agency)})<br><b>Prepared:</b> ${fmtDay(TODAY)}</p>
+<p class="g">Draft prepared with the Healthcare Startup Funding Finder. Information only, not advice: check the official requirements before submitting. Use the official template where the scheme requires one.</p>
+${m.secs.map((x, i) => `<h2>${i + 1}. ${esc(x.h)}</h2>${x.g ? `<p class="g">Assessors look for: ${esc(x.g)}</p>` : ""}<p${x.text ? "" : ' class="todo"'}>${x.text ? para(x.text) : "[To write]"}</p>`).join("")}
+<h2>Budget</h2><p>${m.calc.html}</p>
+<h2>Documents to prepare</h2><ul>${m.docs.map(d => `<li>${esc(d.t)}</li>`).join("")}</ul>
+<h2>Steps</h2><ol>${m.a.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+${m.gaps.length ? `<h2>Still missing</h2><ul>${m.gaps.map(g => `<li>${esc(g)}</li>`).join("")}</ul>` : ""}
+<p class="g">Official information: ${esc(m.a.source)}</p></body></html>`;
+}
+function downloadWord(id, p){
+  const blob = new Blob(["﻿" + packWordHTML(id, p)], {type: "application/msword"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${id}-application-draft.doc`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast("Word file downloading. If nothing happens, use Copy text.");
+}
+
+
+const EXAMPLE_PROJECT = {
+  title: "Example: CardioSense home monitoring patch",
+  summary: "Example text. CardioSense develops a wearable ECG patch and app that detect atrial fibrillation at home after cardiac surgery. The project takes the prototype to a validated pre-series device and prepares the CE marking file.",
+  need: "Example text. After cardiac surgery, up to a third of patients develop atrial fibrillation, often after discharge. Hospitals lack an affordable way to monitor these patients at home for several weeks.",
+  solution: "Example text. A 14-day adhesive ECG patch with on-device detection and a clinician dashboard. New: low-power detection that runs on the patch, so no smartphone is needed.",
+  state_of_art: "Example text. Existing patches record data for later analysis or depend on a phone. Holter monitors are bulky and limited to 24-48 hours.",
+  risks: "Example text. Battery life over 14 days with continuous detection; skin adhesion; detection accuracy in real-life movement.",
+  workplan: "Example text. WP1 low-power firmware (months 1-6). WP2 pre-series hardware (months 4-10). WP3 usability and accuracy study (months 9-14). WP4 technical file for CE marking (months 12-18).",
+  team: "Example text. Two founders (biomedical engineer, cardiologist), one firmware engineer, a part-time regulatory consultant.",
+  partners: "Example text. University hospital cardiology department (clinical input); electronics subcontractor for the pre-series.",
+  market: "Example text. Cardiac surgery centres in Belgium and the Netherlands first, then the wider EU.",
+  business_model: "Example text. Monitoring as a service per patient episode, billed to hospitals.",
+  valorisation: "Example text. Six new jobs in five years and a production line investment.",
+  regulatory: "Example text. Medical device under MDR, expected class IIa; notified body selection in month 12.",
+  ip: "Example text. Patent application filed on the detection method; software protected by copyright.",
+  financing: "Example text. Seed round of EUR 600,000 closed; own share covered.",
+  sustainability: "Example text. Reusable electronics module; fewer hospital readmissions.",
+  start_date: "", c_personnel: "180000", c_subcontract: "60000", c_equipment: "25000", c_operating: "20000", c_other: "15000",
+};
+document.getElementById("pf-example").addEventListener("click", () => {
+  const hasOwn = APPDATA.fields.some(([k]) => String(project[k] || "").trim() && !String(project[k]).startsWith("Example"));
+  if (hasOwn) { toast("Clear your project file first: loading the example would overwrite it"); return; }
+  project = {...EXAMPLE_PROJECT}; saveProject();
+  document.querySelectorAll("[data-pf]").forEach(el => { el.value = project[el.dataset.pf] ?? ""; });
+  render(); toast("Example project loaded");
+});
+let clearArmed = false;
+document.getElementById("pf-clear").addEventListener("click", e => {
+  if (!clearArmed) { clearArmed = true; e.target.textContent = "Click again to clear everything"; setTimeout(() => { clearArmed = false; e.target.textContent = "Clear project file"; }, 4000); return; }
+  clearArmed = false; e.target.textContent = "Clear project file";
+  project = {}; saveProject();
+  document.querySelectorAll("[data-pf]").forEach(el => { el.value = ""; });
+  render(); toast("Project file cleared");
+});
 
 /* Browse tab */
 const fStatus = document.getElementById("f-status"), fType = document.getElementById("f-type");
@@ -612,7 +1114,8 @@ function renderTable(){
 ["q","f-level","f-status","f-type"].forEach(id => document.getElementById(id).addEventListener("input", renderTable));
 
 /* Tabs */
-const tabs = {match: document.getElementById("tab-match"), browse: document.getElementById("tab-browse")};
+const TAB_ORDER = ["match", "elig", "apply", "browse"];
+const tabs = Object.fromEntries(TAB_ORDER.map(k => [k, document.getElementById("tab-" + k)]));
 function show(name){
   Object.entries(tabs).forEach(([k,b]) => {
     b.setAttribute("aria-selected", k===name); b.tabIndex = k===name ? 0 : -1;
@@ -624,15 +1127,16 @@ function go(name, focus){
   try { history.replaceState(null, "", "#" + name); } catch(e) {}
   if (focus) tabs[name].focus();
 }
-tabs.match.addEventListener("click", ()=>go("match"));
-tabs.browse.addEventListener("click", ()=>go("browse"));
+TAB_ORDER.forEach(k => tabs[k].addEventListener("click", () => go(k)));
 document.querySelector(".tablist").addEventListener("keydown", e => {
   if (!["ArrowLeft","ArrowRight","Home","End"].includes(e.key)) return;
   e.preventDefault();
-  const cur = tabs.match.getAttribute("aria-selected") === "true" ? "match" : "browse";
-  go(e.key === "Home" ? "match" : e.key === "End" ? "browse" : (cur === "match" ? "browse" : "match"), true);
+  const cur = TAB_ORDER.findIndex(k => tabs[k].getAttribute("aria-selected") === "true");
+  const n = TAB_ORDER.length;
+  const next = e.key === "Home" ? 0 : e.key === "End" ? n - 1 : (cur + (e.key === "ArrowRight" ? 1 : n - 1)) % n;
+  go(TAB_ORDER[next], true);
 });
-function fromHash(){ show(location.hash === "#browse" ? "browse" : "match"); }
+function fromHash(){ const h = location.hash.slice(1); show(TAB_ORDER.includes(h) ? h : "match"); }
 window.addEventListener("hashchange", fromHash);
 
 fromHash(); render(); renderTable();

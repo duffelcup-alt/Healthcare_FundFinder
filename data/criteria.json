@@ -1,0 +1,1123 @@
+{
+ "FED-01": [
+  {
+   "t": "Employs researchers on a research or development project",
+   "key": true,
+   "r": [
+    "is",
+    "researchers",
+    "yes"
+   ]
+  },
+  {
+   "t": "Researchers hold a qualifying master's or PhD (bachelor's diplomas count in a capped way)",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Project or programme registered with BELSPO before applying the exemption",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Young Innovative Company variant possible (small company under 10 years)",
+   "key": false,
+   "r": [
+    "calc",
+    "yic"
+   ]
+  }
+ ],
+ "FED-02": [
+  {
+   "t": "Subject to Belgian corporate tax",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Earns income from qualifying IP (patent, SPC, copyrighted software from R&D, orphan drug)",
+   "key": true,
+   "r": [
+    "is",
+    "ip_income",
+    "yes"
+   ]
+  },
+  {
+   "t": "Software was developed in an R&D project (if claiming for software)",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "FED-03": [
+  {
+   "t": "Company is at most 4 years old",
+   "key": true,
+   "r": [
+    "max",
+    "age",
+    4
+   ]
+  },
+  {
+   "t": "Micro company (45% for investors) or small company (30%)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small"
+    ]
+   ]
+  },
+  {
+   "t": "A company with legal personality (e.g. BV/SRL, NV/SA)",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Raises at most EUR 500,000 in total through the Tax Shelter",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Investors are private persons who pay Belgian income tax and keep the shares 4 years",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "FED-04": [
+  {
+   "t": "Company is 5 to 10 years old",
+   "key": true,
+   "r": [
+    "range",
+    "age",
+    5,
+    10
+   ]
+  },
+  {
+   "t": "SME (not a large company)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small",
+     "medium"
+    ]
+   ]
+  },
+  {
+   "t": "A company with legal personality (e.g. BV/SRL, NV/SA)",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  }
+ ],
+ "FED-05": [
+  {
+   "t": "Invests in patents or in environment-friendly R&D assets",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Has taxable profit to deduct from, or opts for the R&D tax credit",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "FED-06": [
+  {
+   "t": "Project about the use or governance of health data",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Works with at least one partner organisation",
+   "key": true,
+   "r": [
+    "min",
+    "partners",
+    1
+   ]
+  }
+ ],
+ "VL-01": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "Small enterprise (micro or small)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small"
+    ]
+   ]
+  },
+  {
+   "t": "Not listed on a stock exchange",
+   "key": true,
+   "r": [
+    "is",
+    "listed",
+    "no"
+   ]
+  },
+  {
+   "t": "Has not distributed profits",
+   "key": true,
+   "r": [
+    "is",
+    "profits_distributed",
+    "no"
+   ]
+  },
+  {
+   "t": "Did not take over another company's activity and did not come from a merger or acquisition",
+   "key": true,
+   "r": [
+    "is",
+    "from_merger",
+    "no"
+   ]
+  },
+  {
+   "t": "No earlier VLAIO R&D subsidy (development/research project, feasibility study, ICON, Baekeland...)",
+   "key": true,
+   "r": [
+    "is",
+    "prior_vlaio_rd",
+    "no"
+   ]
+  },
+  {
+   "t": "Project needs at least one person-year or EUR 70,000 of effort",
+   "key": true,
+   "r": [
+    "min",
+    "budget",
+    70000
+   ]
+  },
+  {
+   "t": "Project runs 6 to 12 months",
+   "key": true,
+   "r": [
+    "range",
+    "months",
+    6,
+    12
+   ]
+  },
+  {
+   "t": "Put forward by a VLAIO partner (e.g. Agoria, Voka, Sirris)",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Deliverables include a proof of business (proof of concept alone is not enough)",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-02": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "A company with legal personality (e.g. BV/SRL, NV/SA)",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Not a company in difficulty (EU definition)",
+   "key": true,
+   "r": [
+    "is",
+    "in_difficulty",
+    "no"
+   ]
+  },
+  {
+   "t": "Requested support between EUR 25,000 and EUR 3,000,000",
+   "key": true,
+   "r": [
+    "calc",
+    "vl02"
+   ]
+  },
+  {
+   "t": "Project not started yet: costs made before the start date are not funded",
+   "key": true,
+   "r": [
+    "is",
+    "project_started",
+    "no"
+   ]
+  },
+  {
+   "t": "Duration up to 36 months on the conditions page (VLAIO's database says 24: confirm with VLAIO)",
+   "key": true,
+   "r": [
+    "max",
+    "months",
+    36
+   ]
+  },
+  {
+   "t": "Can finance its own share of the project costs",
+   "key": true,
+   "r": [
+    "is",
+    "cofund",
+    "yes"
+   ]
+  },
+  {
+   "t": "Valorisation in Flanders of at least 10x the subsidy within 5 years (jobs, investment or productivity)",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Development is new for the company and its sector, clearly beyond routine improvement",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-03": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "A company with legal personality (e.g. BV/SRL, NV/SA)",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Not a company in difficulty (EU definition)",
+   "key": true,
+   "r": [
+    "is",
+    "in_difficulty",
+    "no"
+   ]
+  },
+  {
+   "t": "Requested support between EUR 100,000 and EUR 3,000,000",
+   "key": true,
+   "r": [
+    "calc",
+    "vl03"
+   ]
+  },
+  {
+   "t": "Project not started yet: costs made before the start date are not funded",
+   "key": true,
+   "r": [
+    "is",
+    "project_started",
+    "no"
+   ]
+  },
+  {
+   "t": "Duration up to 36 months",
+   "key": true,
+   "r": [
+    "max",
+    "months",
+    36
+   ]
+  },
+  {
+   "t": "Can finance its own share of the project costs",
+   "key": true,
+   "r": [
+    "is",
+    "cofund",
+    "yes"
+   ]
+  },
+  {
+   "t": "Research builds new knowledge with risks too high for a development project",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-04": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "Consortium of at least 3 partners (you plus 2 or more)",
+   "key": true,
+   "r": [
+    "min",
+    "partners",
+    2
+   ]
+  },
+  {
+   "t": "Consortium includes Biovia members",
+   "key": true,
+   "r": [
+    "is",
+    "biovia_member",
+    "yes"
+   ]
+  },
+  {
+   "t": "Project in medical biotech, medtech or digital health",
+   "key": true,
+   "r": [
+    "in",
+    "focus",
+    [
+     "medtech",
+     "biotech",
+     "digital"
+    ]
+   ]
+  },
+  {
+   "t": "Addresses a clearly defined unmet medical need",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Fits one of the Biovia roadmap topics",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-05": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "Works with a university or research institution",
+   "key": true,
+   "r": [
+    "is",
+    "uni",
+    "yes"
+   ]
+  },
+  {
+   "t": "A PhD candidate admitted to a doctoral programme will do the research",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Can finance its own share of the project costs",
+   "key": true,
+   "r": [
+    "is",
+    "cofund",
+    "yes"
+   ]
+  }
+ ],
+ "VL-06": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "Works with a university or research institution",
+   "key": true,
+   "r": [
+    "is",
+    "uni",
+    "yes"
+   ]
+  },
+  {
+   "t": "A postdoctoral researcher (PhD) leads the transfer or spin-off",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-07": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "SME (large companies only for investments in development zones)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small",
+     "medium"
+    ]
+   ]
+  },
+  {
+   "t": "A strategic investment or training project (innovation, internationalisation, sustainability)",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "The investment receives no other state aid",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-08": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "SME",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small",
+     "medium"
+    ]
+   ]
+  },
+  {
+   "t": "Training, or cybersecurity advice, from a registered provider",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "VL-09": [
+  {
+   "t": "Main site or operating activities in Flanders",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Flanders"
+    ]
+   ]
+  },
+  {
+   "t": "SME",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small",
+     "medium"
+    ]
+   ]
+  }
+ ],
+ "BR-01": [
+  {
+   "t": "Main site or operating activities in Brussels",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Brussels"
+    ]
+   ]
+  },
+  {
+   "t": "Start-up (micro or small company)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small"
+    ]
+   ]
+  },
+  {
+   "t": "Not a company in difficulty (EU definition)",
+   "key": true,
+   "r": [
+    "is",
+    "in_difficulty",
+    "no"
+   ]
+  },
+  {
+   "t": "Has a Strategic Innovation Plan to fund",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "BR-02": [
+  {
+   "t": "Main site or operating activities in Brussels",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Brussels"
+    ]
+   ]
+  },
+  {
+   "t": "Can finance its own share of the project costs",
+   "key": true,
+   "r": [
+    "is",
+    "cofund",
+    "yes"
+   ]
+  },
+  {
+   "t": "Develops an innovative product, process or service",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "BR-03": [
+  {
+   "t": "Main site or operating activities in Brussels",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Brussels"
+    ]
+   ]
+  },
+  {
+   "t": "Partners with a Brussels research organisation",
+   "key": true,
+   "r": [
+    "is",
+    "uni",
+    "yes"
+   ]
+  },
+  {
+   "t": "R&D activities of the company are in Brussels",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "BR-04": [
+  {
+   "t": "Main site or operating activities in Brussels",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Brussels"
+    ]
+   ]
+  },
+  {
+   "t": "Needs a technical feasibility study before an R&D project",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "BR-05": [
+  {
+   "t": "Main site or operating activities in Brussels",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Brussels"
+    ]
+   ]
+  },
+  {
+   "t": "Very small enterprise",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro"
+    ]
+   ]
+  },
+  {
+   "t": "Applies before costs are made and before the assignment starts",
+   "key": true,
+   "r": [
+    "is",
+    "project_started",
+    "no"
+   ]
+  },
+  {
+   "t": "Sector is not excluded",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "WA-01": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "Commercial company registered in the Crossroads Bank for Enterprises",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Not a company in difficulty (EU definition)",
+   "key": true,
+   "r": [
+    "is",
+    "in_difficulty",
+    "no"
+   ]
+  },
+  {
+   "t": "Up to date with VAT, social security (ONSS) and the Region",
+   "key": true,
+   "r": [
+    "is",
+    "tax_compliant",
+    "yes"
+   ]
+  },
+  {
+   "t": "The project has not already received public funding",
+   "key": true,
+   "r": [
+    "is",
+    "prior_public_funding",
+    "no"
+   ]
+  },
+  {
+   "t": "Industrial research or experimental development towards a product, process or service you will sell",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Can meet current and foreseeable financial needs, or find complementary financing",
+   "key": true,
+   "r": [
+    "is",
+    "cofund",
+    "yes"
+   ]
+  }
+ ],
+ "WA-02": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "SME (EU definition)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small",
+     "medium"
+    ]
+   ]
+  },
+  {
+   "t": "Commercial company registered in the Crossroads Bank for Enterprises",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Not a company in difficulty (EU definition)",
+   "key": true,
+   "r": [
+    "is",
+    "in_difficulty",
+    "no"
+   ]
+  },
+  {
+   "t": "The work is not preclinical or clinical testing (excluded)",
+   "key": true,
+   "r": [
+    "is",
+    "clinical_tests",
+    "no"
+   ]
+  },
+  {
+   "t": "Work done by an approved research centre, public research body or university/college unit",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  },
+  {
+   "t": "Study runs 6 to 24 months",
+   "key": true,
+   "r": [
+    "range",
+    "months",
+    6,
+    24
+   ]
+  },
+  {
+   "t": "With Win4Expertise marketing advice: at most EUR 200,000 aid per company over 3 calendar years",
+   "key": false,
+   "r": [
+    "calc",
+    "wa02"
+   ]
+  }
+ ],
+ "WA-03": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "Led by a university or college research unit",
+   "key": true,
+   "r": [
+    "is",
+    "uni",
+    "yes"
+   ]
+  },
+  {
+   "t": "Researcher works full-time on the project and had no earlier FIRST Spin-off/Win4SpinOff contract",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "WA-04": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "A university unit is the promoter",
+   "key": true,
+   "r": [
+    "is",
+    "uni",
+    "yes"
+   ]
+  },
+  {
+   "t": "Supported by an existing company with a Walloon operating site",
+   "key": true,
+   "r": [
+    "is",
+    "legal_entity",
+    "yes"
+   ]
+  },
+  {
+   "t": "Fits the call's theme (2026: DIS 2 'Innovations for stronger health')",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "WA-05": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "Collaborative project with at least one partner",
+   "key": true,
+   "r": [
+    "min",
+    "partners",
+    1
+   ]
+  },
+  {
+   "t": "Project in biopharma/biotech, medtech or e-health",
+   "key": true,
+   "r": [
+    "in",
+    "focus",
+    [
+     "medtech",
+     "biotech",
+     "digital"
+    ]
+   ]
+  },
+  {
+   "t": "Coordinated by a company",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "WA-06": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "Early-stage start-up (micro or small)",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small"
+    ]
+   ]
+  },
+  {
+   "t": "Innovative tech start-up at an early stage",
+   "key": true,
+   "r": [
+    "manual"
+   ]
+  }
+ ],
+ "WA-07": [
+  {
+   "t": "Main site or operating activities in Wallonia",
+   "key": true,
+   "r": [
+    "in",
+    "region",
+    [
+     "Wallonia"
+    ]
+   ]
+  },
+  {
+   "t": "Independent or SME, not a non-profit",
+   "key": true,
+   "r": [
+    "in",
+    "size",
+    [
+     "micro",
+     "small",
+     "medium"
+    ]
+   ]
+  },
+  {
+   "t": "Stays under the de minimis ceiling for state aid",
+   "key": false,
+   "r": [
+    "manual"
+   ]
+  }
+ ]
+}
