@@ -6,7 +6,8 @@ scraper's visits to the official funding pages.
 
 1. OPEN THE FINDER
    Double-click  open_finder.bat
-   The site opens in your browser. It works right away, even without Python.
+   The site opens in your browser on its home page; click "Open the finder".
+   It works right away, even without Python.
 
    Tabs: Find matches, Eligibility (a checklist for every scheme),
    Applications (application packs for your shortlist), All schemes.

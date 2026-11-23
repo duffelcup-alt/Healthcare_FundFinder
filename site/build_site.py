@@ -1,6 +1,7 @@
 """Build the site into site/public/:
 
-- index.html    the finder, with data/schemes.json built in (opens straight from disk)
+- index.html    the landing page (live status board from the data)
+- finder.html   the finder, with data/schemes.json built in (opens straight from disk)
 - updates.html  every scraper report, newest first
 - schemes.json  a copy of the data
 """
@@ -30,13 +31,16 @@ def build() -> Path:
     apps = (ROOT / "data" / "applications.json").read_text(encoding="utf-8")
     page = (tpl.replace("__DATA__", json.dumps(data_sorted, ensure_ascii=False))
                .replace("__CRITERIA__", criteria).replace("__APPS__", apps).replace("__CONTACT__", contact))
-    (OUT / "index.html").write_text(page, encoding="utf-8")
+    (OUT / "finder.html").write_text(page, encoding="utf-8")
+    landing = (ROOT / "site" / "landing_template.html").read_text(encoding="utf-8")
+    landing = landing.replace("__DATA__", json.dumps(data_sorted, ensure_ascii=False)).replace("__CONTACT__", contact)
+    (OUT / "index.html").write_text(landing, encoding="utf-8")
     disc = (ROOT / "site" / "disclaimer_template.html").read_text(encoding="utf-8")
     disc = disc.replace("__CONTACT__", contact).replace("__DATA_DATE__", latest).replace("__POLICY_DATE__", POLICY_DATE)
     (OUT / "disclaimer.html").write_text(disc, encoding="utf-8")
     (OUT / "schemes.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / "updates.html").write_text(updates_page(), encoding="utf-8")
-    print(f"Built {OUT / 'index.html'} with {len(data)} schemes")
+    print(f"Built {OUT / 'index.html'} (landing page) and finder.html with {len(data)} schemes")
     return OUT / "index.html"
 
 
@@ -73,7 +77,7 @@ pre {{ background:var(--paper); padding:10px; border-radius:6px; overflow-x:auto
 .empty {{ color:var(--muted); border:1px dashed var(--line); border-radius:10px; padding:16px; }}
 </style></head>
 <body><div class="wrap">
-<header><h1>Data updates</h1><a href="index.html">Back to the finder</a></header>\n<p class="status">Reports come from an automated check of the official pages and may contain mistakes. See the <a href="disclaimer.html">disclaimer</a>.</p>
+<header><h1>Data updates</h1><span><a href="index.html">Home</a> · <a href="finder.html">Open the finder</a></span></header>\n<p class="status">Reports come from an automated check of the official pages and may contain mistakes. See the <a href="disclaimer.html">disclaimer</a>.</p>
 <p class="status">{status}</p>
 {body}
 </div></body></html>"""

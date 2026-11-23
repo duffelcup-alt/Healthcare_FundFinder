@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthcare Startup Funding Finder</title>
+<meta name="description" content="Every federal, Flemish, Brussels and Walloon funding scheme for healthcare startups, checked against your company, with application packs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: dark "status board" hero (the one bold move), then quiet light sections on a 12-col grid. */
+  --ink: #14232b;
+  --muted: #5a6b74;
+  --paper: #f5f7f7;
+  --surface: #ffffff;
+  --line: #d9e1e3;
+  --accent: #0b6e6e;
+  --accent-soft: #e1f0ef;
+  --hi: #f2b705;
+  --board: #0c2628;            /* hero background, same in both themes */
+  --board-line: #1f4245;
+  --board-ink: #e8f1f0;
+  --board-muted: #93b1b0;
+  --ok: #2f7d3b; --ok-bg: #e5f3e7; --bad: #a33a2b; --bad-bg: #f9e3df; --warn: #9a6400; --warn-bg: #fbf0d9;
+  --display: "Source Serif 4", Georgia, serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #e4ecee; --muted: #9aabb2; --paper: #10191d; --surface: #172328; --line: #2a3a40;
+    --accent: #4fc0b8; --accent-soft: #173a3a; --hi: #ffc933;
+    --ok: #7fcf8a; --ok-bg: #1c3322; --bad: #f09484; --bad-bg: #3c201b; --warn: #e8b85a; --warn-bg: #3a2e14;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ink: #e4ecee; --muted: #9aabb2; --paper: #10191d; --surface: #172328; --line: #2a3a40;
+  --accent: #4fc0b8; --accent-soft: #173a3a; --hi: #ffc933;
+  --ok: #7fcf8a; --ok-bg: #1c3322; --bad: #f09484; --bad-bg: #3c201b; --warn: #e8b85a; --warn-bg: #3a2e14;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 16px/1.6 var(--body); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--hi); outline-offset: 3px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; border: 2px solid transparent; }
+.btn.primary { background: var(--hi); color: #2e2100; }
+.btn.primary:hover { filter: brightness(1.06); }
+.btn.line { border-color: currentColor; color: inherit; }
+
+/* ---------- Hero: the status board ---------- */
+.hero { background: var(--board); color: var(--board-ink); }
+.hero nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.1rem; color: var(--board-ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.brand-mark { width: 26px; height: 26px; border-radius: 6px; background: var(--hi); display: grid; place-items: center; color: #2e2100; font-size: .9rem; }
+.hero nav .links { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; font-size: .95rem; }
+.hero nav .links a { color: var(--board-muted); text-decoration: none; }
+.hero nav .links a:hover { color: var(--board-ink); }
+.hero nav .links a.btn { color: #2e2100; padding: 8px 14px; }
+@media (max-width: 640px) { .hero nav .links a:not(.btn) { display: none; } .hero nav { flex-wrap: nowrap; } .brand { font-size: 1rem; } }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 48px; align-items: center; padding: 48px 0 72px; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-top: 24px; } }
+.eyebrow { font-size: .82rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--hi); margin: 0 0 16px; }
+.hero h1 { font-size: clamp(2.3rem, 5vw, 3.9rem); line-height: 1.04; font-weight: 600; letter-spacing: -.015em; }
+.hero h1 em { font-style: italic; color: var(--hi); font-weight: 500; }
+.hero .lede { font-size: 1.12rem; color: var(--board-muted); max-width: 52ch; margin: 22px 0 30px; }
+.hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero .ctas .btn.line { color: var(--board-ink); border-color: var(--board-line); }
+.hero .ctas .btn.line:hover { border-color: var(--board-muted); }
+
+.board { background: #081c1e; border: 1px solid var(--board-line); border-radius: 14px; padding: 18px 20px 14px; font-variant-numeric: tabular-nums; box-shadow: 0 30px 60px -30px #000; }
+.board-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--board-line); flex-wrap: wrap; }
+.board-head b { font-family: var(--display); font-size: 1.05rem; }
+.board-head span { font-size: .8rem; color: var(--board-muted); display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #5bd28a; box-shadow: 0 0 0 0 #5bd28a; animation: ping 2.4s ease-out infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(91,210,138,.6); } 70%, 100% { box-shadow: 0 0 0 8px rgba(91,210,138,0); } }
+.board table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+.board th { text-align: right; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--board-muted); font-weight: 600; padding: 8px 0 6px; }
+.board th:first-child { text-align: left; }
+.board td { padding: 11px 0; border-top: 1px solid var(--board-line); text-align: right; }
+.board td:first-child { text-align: left; font-weight: 600; }
+.board td small { display: block; color: var(--board-muted); font-weight: 400; font-size: .78rem; }
+.board .n { font-family: var(--display); font-size: 1.5rem; font-weight: 600; }
+.board .n.open { color: #6fdc96; }
+.board .n.hold { color: #f3a08f; }
+.board .n.zero { color: #4a6b6b; }
+.board tr { animation: rowin .55s cubic-bezier(.2,.7,.2,1) both; }
+.board tbody tr:nth-child(2) { animation-delay: .08s; } .board tbody tr:nth-child(3) { animation-delay: .16s; } .board tbody tr:nth-child(4) { animation-delay: .24s; }
+@keyframes rowin { from { transform: translateY(8px); opacity: .35; } to { transform: none; opacity: 1; } }
+.board-foot { margin-top: 10px; padding-top: 12px; border-top: 1px dashed var(--board-line); font-size: .86rem; color: var(--board-muted); }
+.board-foot b { color: var(--hi); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .board tr, .dot { animation: none; } }
+
+/* ---------- Sections ---------- */
+section.block { padding: 84px 0; }
+section.block + section.block { border-top: 1px solid var(--line); }
+.kicker { font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.block h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.12; font-weight: 600; max-width: 22ch; }
+.block .intro { color: var(--muted); max-width: 62ch; font-size: 1.06rem; margin: 14px 0 0; }
+
+.problem { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 44px; border-top: 2px solid var(--ink); }
+@media (max-width: 760px) { .problem { grid-template-columns: minmax(0, 1fr); } }
+.problem > div { padding: 22px 24px 4px 0; }
+.problem > div + div { border-left: 1px solid var(--line); padding-left: 24px; }
+@media (max-width: 760px) { .problem > div + div { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; } }
+.problem b { font-family: var(--display); font-size: 3.2rem; line-height: 1; font-weight: 600; display: block; font-variant-numeric: tabular-nums; }
+.problem p { color: var(--muted); margin: 10px 0 0; max-width: 32ch; }
+
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 44px; counter-reset: st; }
+@media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; counter-increment: st; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+.step:hover { border-color: var(--accent); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .step { transition: none; } .step:hover { transform: none; } }
+.step::before { content: "0" counter(st); font-family: var(--display); font-size: .95rem; font-weight: 700; color: var(--accent); }
+.step h3 { font-size: 1.2rem; }
+.step p { margin: 0; color: var(--muted); font-size: .94rem; }
+.step .go { margin-top: auto; font-weight: 600; color: var(--accent); font-size: .9rem; }
+.vignette { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: .8rem; display: grid; gap: 5px; }
+.vignette .row { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.pill { font-size: .7rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.p-ok { background: var(--ok-bg); color: var(--ok); } .p-bad { background: var(--bad-bg); color: var(--bad); } .p-warn { background: var(--warn-bg); color: var(--warn); }
+.tick { display: grid; grid-template-columns: 18px 1fr; gap: 6px; align-items: start; }
+.tick i { font-style: normal; font-weight: 800; text-align: center; border-radius: 4px; font-size: .72rem; line-height: 17px; }
+.v-hi { border: 2px solid var(--hi); background: color-mix(in srgb, var(--hi) 14%, var(--surface)); }
+.meter { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; } .meter span { display: block; height: 100%; background: var(--accent); }
+
+.levels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 44px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+@media (max-width: 900px) { .levels { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .levels { grid-template-columns: minmax(0, 1fr); } }
+.level { padding: 22px; border-right: 1px solid var(--line); }
+.level:last-child { border-right: 0; }
+@media (max-width: 900px) { .level { border-bottom: 1px solid var(--line); } }
+.level h3 { font-size: 1.3rem; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.level h3 span { font-family: var(--body); font-size: .82rem; color: var(--muted); font-weight: 600; }
+.level .agencies { color: var(--muted); font-size: .88rem; margin: 4px 0 12px; }
+.level ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: .88rem; }
+.level li { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.level li span:first-child { overflow-wrap: anywhere; }
+
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+@media (max-width: 860px) { .split { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+.timeline { margin: 0; padding: 0; list-style: none; border-left: 2px solid var(--line); display: grid; gap: 18px; }
+.timeline li { position: relative; padding-left: 22px; }
+.timeline li::before { content: ""; position: absolute; left: -7px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.timeline b { display: block; }
+.timeline span { color: var(--muted); font-size: .94rem; }
+.promises { display: grid; gap: 14px; }
+.promise { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.promise h3 { font-size: 1.12rem; margin-bottom: 4px; }
+.promise p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+.final { background: var(--board); color: var(--board-ink); border-radius: 18px; padding: 52px 40px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
+@media (max-width: 760px) { .final { grid-template-columns: minmax(0, 1fr); padding: 36px 24px; } }
+.final h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); max-width: 24ch; }
+.final p { color: var(--board-muted); margin: 10px 0 0; }
+footer { padding: 36px 0 52px; color: var(--muted); font-size: .86rem; }
+footer .wrap { display: grid; gap: 8px; }
+footer p { margin: 0; max-width: 95ch; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">★</span> Healthcare Funding Finder</a>
+      <div class="links">
+        <a href="#how">How it works</a>
+        <a href="#covered">What's covered</a>
+        <a href="#current">Kept current</a>
+        <a class="btn primary" href="finder.html#match">Open the finder</a>
+      </div>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">For healthcare startups in Belgium</p>
+        <h1>Every public funding scheme, <em>checked against your company.</em></h1>
+        <p class="lede">Federal, Flemish, Brussels and Walloon support in one place. See which schemes you can use today, which criteria you meet or miss, and get an application pack for each.</p>
+        <div class="ctas">
+          <a class="btn primary" href="finder.html#match">Find my funding →</a>
+          <a class="btn line" href="finder.html#elig">See the eligibility checklist</a>
+        </div>
+      </div>
+
+      <div class="board" aria-label="Current status of the schemes">
+        <div class="board-head">
+          <b>Funding status board</b>
+          <span><i class="dot" aria-hidden="true"></i> checked <span id="checked"></span></span>
+        </div>
+        <table>
+          <thead><tr><th scope="col">Level</th><th scope="col">Open now</th><th scope="col">On hold or closed</th></tr></thead>
+          <tbody id="board-rows"></tbody>
+        </table>
+        <div class="board-foot" id="board-foot"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block">
+    <div class="wrap">
+      <p class="kicker">The problem</p>
+      <h2>Belgian funding is split across four governments, and it keeps moving.</h2>
+      <p class="intro">Research and innovation support is mostly regional, tax measures are federal, and each agency runs its own website, portal and rules. Budgets get cut and calls get suspended mid-year. Founders lose weeks working out what still applies to them.</p>
+      <div class="problem">
+        <div><b>4</b><p>governments with their own schemes: federal, Flanders, Brussels and Wallonia.</p></div>
+        <div><b id="n-agencies">10+</b><p>agencies and operators, each with its own website and application process.</p></div>
+        <div><b id="n-hold">–</b><p>of the schemes we track are suspended, closed or without an open call right now.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <p class="kicker">How it works</p>
+      <h2>From “what exists?” to a draft application in four steps.</h2>
+      <div class="steps">
+        <a class="step" href="finder.html#match">
+          <h3>Describe your startup</h3>
+          <p>Region, size, age, field and what you need funding for. It takes about two minutes.</p>
+          <div class="vignette" aria-hidden="true">
+            <div class="row"><span>Region</span><b>Flanders</b></div>
+            <div class="row"><span>Founded</span><b>2024</b></div>
+            <div class="row"><span>Field</span><b>Medtech</b></div>
+          </div>
+          <span class="go">Start →</span>
+        </a>
+        <a class="step" href="finder.html#match">
+          <h3>See what you can use today</h3>
+          <p>Schemes ranked by fit, with indicative amounts. Suspended schemes go to a watchlist.</p>
+          <div class="vignette" aria-hidden="true">
+            <div class="row"><span>Development project</span><span class="pill p-ok">Open</span></div>
+            <div class="row"><span>Indicative support</span><b>€135,000</b></div>
+          </div>
+          <span class="go">See matches →</span>
+        </a>
+        <a class="step" href="finder.html#elig">
+          <h3>Check every criterion</h3>
+          <p>A checklist for every scheme: which key criteria you meet, miss or still need to answer.</p>
+          <div class="vignette" aria-hidden="true">
+            <div class="tick"><i class="p-ok">✓</i><span>Main site in Flanders</span></div>
+            <div class="tick"><i class="p-ok">✓</i><span>Not in difficulty</span></div>
+            <div class="tick"><i class="p-bad">✗</i><span>Consortium of 3 partners</span></div>
+          </div>
+          <span class="go">Open checklist →</span>
+        </a>
+        <a class="step" href="finder.html#apply">
+          <h3>Prepare the application</h3>
+          <p>Write your project once. Get a pack per scheme: steps, documents, budget and a Word draft.</p>
+          <div class="vignette v-hi" aria-hidden="true">
+            <div class="row"><b>★ Application pack</b><span>82%</span></div>
+            <div class="meter"><span style="width:82%"></span></div>
+            <div class="row"><span>Documents</span><span>5 of 8 ready</span></div>
+          </div>
+          <span class="go">Build a pack →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="covered">
+    <div class="wrap">
+      <p class="kicker">What's covered</p>
+      <h2><span id="n-total">27</span> schemes, from R&amp;D grants to tax measures.</h2>
+      <p class="intro">Grants, repayable advances, convertible loans, vouchers and tax incentives that healthcare startups can use, each linked to its official source page.</p>
+      <div class="levels" id="levels"></div>
+    </div>
+  </section>
+
+  <section class="block" id="current">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Kept current</p>
+        <h2>Checked against the official pages every day.</h2>
+        <p class="intro">A scraper reads each scheme's official page daily and flags what changed. A person reviews every change before the data is updated, and each scheme shows the date it was last checked.</p>
+      </div>
+      <ol class="timeline">
+        <li><b>Daily check</b><span>Every official page and the agencies' overview pages are read and compared with the day before.</span></li>
+        <li><b>Change detected</b><span>Wording like “suspended”, “geschorst” or “suspendu” and new deadlines are flagged, in Dutch, French and English.</span></li>
+        <li><b>Human review</b><span>Nothing reaches the site without a person confirming it on the source page.</span></li>
+        <li><b>You see the date</b><span>Every scheme shows when it was last verified, so you know how fresh the information is.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Straight answers</p>
+        <h2>What this tool is, and what it isn't.</h2>
+      </div>
+      <div class="promises">
+        <div class="promise"><h3>Your data stays with you</h3><p>Your profile, answers and project file are stored only in your own browser. Nothing is sent to us or anyone else.</p></div>
+        <div class="promise"><h3>Independent</h3><p>Not affiliated with VLAIO, Innoviris, SPW, Wallonie Entreprendre or the federal government. Every scheme links to its official source.</p></div>
+        <div class="promise"><h3>Information, not advice</h3><p>It helps you find and prepare. The granting body decides, and you submit on the official portal. <a href="disclaimer.html">Read the disclaimer</a>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="border-top:0;padding-top:0">
+    <div class="wrap">
+      <div class="final">
+        <div>
+          <h2>Find out what your startup can apply for today.</h2>
+          <p>Free to use. Two minutes to a first answer.</p>
+        </div>
+        <a class="btn primary" href="finder.html#match">Open the finder →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Healthcare Startup Funding Finder · Prototype · Data last checked <span class="checked-long"></span></p>
+    <p>General information about public funding in Belgium, not legal, tax, financial or grant advice. Always confirm on the official page and with the granting agency. <a href="disclaimer.html">Disclaimer and privacy</a> · <a href="updates.html">Data updates</a> · Corrections: __CONTACT__</p>
+  </div>
+</footer>
+
+<script>
+const DATA = __DATA__;
+const AVAILABLE = ["Open", "Call in progress"];
+const LEVELS = [["Federal", "FPS Finance, Health Data Agency"], ["Flanders", "VLAIO, Biovia"], ["Brussels", "Innoviris, hub.brussels"], ["Wallonia", "SPW Recherche, Wallonie Entreprendre, BioWin"]];
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const parseDay = iso => { const [y, m, d] = String(iso).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+const latest = DATA.map(s => s.last_verified).sort().pop();
+const short = parseDay(latest).toLocaleDateString("en-GB", {day: "numeric", month: "short"});
+document.getElementById("checked").textContent = short;
+document.querySelectorAll(".checked-long").forEach(el => el.textContent = parseDay(latest).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}));
+
+const stat = lvl => { const g = DATA.filter(s => s.level === lvl); return {all: g.length, open: g.filter(s => AVAILABLE.includes(s.status)).length}; };
+document.getElementById("board-rows").innerHTML = LEVELS.map(([lvl, ag]) => {
+  const {all, open} = stat(lvl), hold = all - open;
+  return `<tr><td>${esc(lvl)}<small>${esc(ag)}</small></td>
+    <td><span class="n ${open ? "open" : "zero"}">${open}</span></td>
+    <td><span class="n ${hold ? "hold" : "zero"}">${hold}</span></td></tr>`;
+}).join("");
+
+// The most telling change right now: a level where nothing is open, else the newest suspension.
+const dead = LEVELS.map(l => l[0]).find(l => stat(l).all && !stat(l).open);
+const suspended = DATA.filter(s => s.status === "Suspended");
+document.getElementById("board-foot").innerHTML = dead
+  ? `<b>${esc(dead)}:</b> none of the ${stat(dead).all} regional schemes is open right now. ${esc((DATA.find(s => s.level === dead && s.status === "Suspended") || {}).status_note || "")}`
+  : suspended.length ? `<b>${suspended.length} suspended:</b> ${esc(suspended.map(s => s.scheme_name).join(", "))}.` : `All tracked schemes are open or have a call running.`;
+
+const totalHold = DATA.filter(s => !AVAILABLE.includes(s.status)).length;
+document.getElementById("n-hold").textContent = totalHold;
+document.getElementById("n-total").textContent = DATA.length;
+document.getElementById("n-agencies").textContent = new Set(DATA.map(s => s.agency.split(/[\/(]/)[0].trim())).size;
+
+const PILL = s => AVAILABLE.includes(s) ? "p-ok" : s === "Suspended" || s === "Closed" ? "p-bad" : "p-warn";
+document.getElementById("levels").innerHTML = LEVELS.map(([lvl, ag]) => {
+  const g = DATA.filter(s => s.level === lvl).sort((a, b) => AVAILABLE.includes(b.status) - AVAILABLE.includes(a.status));
+  return `<div class="level"><h3>${esc(lvl)} <span>${g.length} schemes</span></h3><p class="agencies">${esc(ag)}</p>
+    <ul>${g.slice(0, 5).map(s => `<li><span>${esc(s.scheme_name.replace(/\s*\(.*\)$/, ""))}</span><span class="pill ${PILL(s.status)}">${esc(s.status)}</span></li>`).join("")}
+    ${g.length > 5 ? `<li><a href="finder.html#browse">+ ${g.length - 5} more</a></li>` : ""}</ul></div>`;
+}).join("");
+</script>
+</body>
+</html>
