@@ -47,7 +47,7 @@ def updates_page() -> str:
         status = (f"Last check: {h.escape(latest['date'])} · {latest['checked']} pages · "
                   f"{latest['review']} to review · {latest['broken']} failing sources")
     else:
-        status = "The scraper hasn't run yet. Double-click update_data.bat."
+        status = "No automated check has run yet. (Running it on your laptop? Double-click update_data.bat.)"
     body = "".join(
         f'<article><div class="md">{markdown.markdown(r.read_text(encoding="utf-8"), extensions=["fenced_code", "sane_lists"])}</div></article>'
         for r in reports[:30]) or '<p class="empty">No changes reported yet. The first run only saves a copy of each page; reports start from the second run.</p>'
