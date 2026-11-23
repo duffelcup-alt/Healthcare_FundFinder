@@ -21,6 +21,7 @@
   --warn: #9a6400; --warn-bg: #fbf0d9;
   --bad: #a33a2b; --bad-bg: #f9e3df;
   --idle: #5a6b74; --idle-bg: #eceff0;
+  --hi: #f2b705; --hi-soft: #fff4c7; --hi-ink: #3d2c00;   /* shortlist highlight */
   --display: "Source Serif 4", Georgia, serif;
   --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
   color-scheme: light;
@@ -31,6 +32,7 @@
     --accent: #4fc0b8; --accent-soft: #173a3a;
     --ok: #7fcf8a; --ok-bg: #1c3322; --warn: #e8b85a; --warn-bg: #3a2e14;
     --bad: #f09484; --bad-bg: #3c201b; --idle: #9aabb2; --idle-bg: #222f34;
+    --hi: #ffc933; --hi-soft: #3a300c; --hi-ink: #fff4c7;
     color-scheme: dark;
   }
 }
@@ -39,6 +41,7 @@
   --accent: #4fc0b8; --accent-soft: #173a3a;
   --ok: #7fcf8a; --ok-bg: #1c3322; --warn: #e8b85a; --warn-bg: #3a2e14;
   --bad: #f09484; --bad-bg: #3c201b; --idle: #9aabb2; --idle-bg: #222f34;
+  --hi: #ffc933; --hi-soft: #3a300c; --hi-ink: #fff4c7;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -135,9 +138,21 @@ form.profile { display: grid; gap: 14px; }
 .watch-row small { color: var(--muted); display: block; }
 .empty { color: var(--muted); padding: 16px; border: 1px dashed var(--line); border-radius: 10px; }
 
-.shortlist { margin-top: 18px; }
-.shortlist ol { margin: 0; padding-left: 20px; font-size: .9rem; }
-.shortlist li { margin: 3px 0; }
+/* Shortlist: the one panel meant to stand out — accent fill, thick accent frame. */
+.shortlist { margin-top: 22px; background: var(--hi-soft); border: 3px solid var(--hi); box-shadow: 0 8px 22px -12px var(--hi); color: var(--hi-ink); }
+.shortlist .section-h h3 { color: var(--hi-ink); display: flex; align-items: center; gap: 8px; }
+.shortlist .section-h h3::before { content: "★"; color: var(--hi); font-size: 1.2em; line-height: 1; }
+.shortlist .count { background: var(--hi); color: #3d2c00; font-family: var(--body); font-size: .78rem; font-weight: 700; min-width: 24px; height: 24px; padding: 0 8px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+.shortlist .btn { background: var(--hi); border-color: var(--hi); color: #3d2c00; }
+.shortlist li .btn.ghost { background: var(--surface); border-color: var(--line); color: var(--ink); }
+.shortlist ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: sl; }
+.shortlist li { counter-increment: sl; display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: .9rem; }
+.shortlist li::before { content: counter(sl); font-weight: 700; color: var(--hi-ink); font-variant-numeric: tabular-nums; }
+.shortlist li small { display: block; color: var(--muted); }
+.shortlist .hint { color: var(--hi-ink); }
+.shortlist.flash { animation: sl-flash .7s ease-out; }
+@keyframes sl-flash { from { box-shadow: 0 0 0 8px var(--hi); } to { box-shadow: 0 8px 22px -12px var(--hi); } }
+@media (prefers-reduced-motion: reduce) { .shortlist.flash { animation: none; } }
 
 /* browse */
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; align-items: end; }
@@ -158,6 +173,7 @@ tr:last-child td { border-bottom: 0; }
 .notice .btnrow { flex-shrink: 0; }
 .policy { border-top: 1px solid var(--line); margin-top: 28px; padding-top: 14px; color: var(--muted); font-size: .82rem; display: grid; gap: 6px; max-width: 95ch; }
 .policy p { margin: 0; }
+.card .btn[aria-pressed="true"] { background: var(--hi); border-color: var(--hi); color: #3d2c00; }
 .est-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-right: 6px; }
 [hidden] { display: none !important; }
 </style>
@@ -280,8 +296,8 @@ tr:last-child td { border-bottom: 0; }
 
       <div class="panel shortlist" id="shortlist-panel">
         <div class="section-h" style="margin-top:0">
-          <h3>Your shortlist</h3>
-          <button type="button" class="btn ghost small" id="copy-shortlist">Copy shortlist</button>
+          <h3>Your shortlist <span class="count" id="shortlist-count" aria-label="schemes on shortlist">0</span></h3>
+          <button type="button" class="btn small" id="copy-shortlist">Copy shortlist</button>
         </div>
         <div id="shortlist"></div>
       </div>
@@ -522,7 +538,8 @@ function card(r){
 function renderShortlist(){
   const el = document.getElementById("shortlist");
   const items = shortlist.map(id => DATA.find(d=>d.id===id)).filter(Boolean);
-  el.innerHTML = items.length ? `<ol>${items.map(s=>`<li><b>${esc(s.scheme_name)}</b> (${esc(s.level)}) · ${esc(s.status)}${upcoming(s.next_deadline) ? " · deadline " + fmtDay(s.next_deadline) : ""} <button type="button" class="btn ghost small" data-remove="${esc(s.id)}">Remove</button></li>`).join("")}</ol>`
+  document.getElementById("shortlist-count").textContent = items.length;
+  el.innerHTML = items.length ? `<ol>${items.map(s=>`<li><span><b>${esc(s.scheme_name)}</b><small>${esc(s.level)} · ${esc(s.status)}${upcoming(s.next_deadline) ? " · deadline " + fmtDay(s.next_deadline) : ""}</small></span><button type="button" class="btn ghost small" data-remove="${esc(s.id)}">Remove</button></li>`).join("")}</ol>`
     : `<p class="hint" style="margin:0">Add schemes from the results to build a list you can copy into an email or plan.</p>`;
 }
 
@@ -557,6 +574,8 @@ document.addEventListener("click", e => {
     const again = document.querySelector(`[data-toggle="${CSS.escape(id)}"]`);
     if (again) again.focus();
     toast(added ? "Added to shortlist" : "Removed from shortlist");
+    const panel = document.getElementById("shortlist-panel");
+    panel.classList.remove("flash"); void panel.offsetWidth; panel.classList.add("flash");
     return;
   }
   const rm = e.target.closest("[data-remove]");
