@@ -9,9 +9,11 @@ import json
 from pathlib import Path
 
 import markdown
+import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site" / "public"
+POLICY_DATE = "2026-11-23"   # change when you edit disclaimer_template.html
 
 
 def build() -> Path:
@@ -20,7 +22,15 @@ def build() -> Path:
     assert "__DATA__" in tpl, "template.html must contain the __DATA__ placeholder"
     data_sorted = sorted(data, key=lambda s: s["last_verified"], reverse=True)  # page shows newest check date
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "index.html").write_text(tpl.replace("__DATA__", json.dumps(data_sorted, ensure_ascii=False)), encoding="utf-8")
+    cfg = yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8")) or {}
+    email = (cfg.get("defaults") or {}).get("contact_email", "")
+    contact = f'<a href="mailto:{h.escape(email)}">{h.escape(email)}</a>' if email else "the site owner"
+    latest = data_sorted[0]["last_verified"]
+    page = tpl.replace("__DATA__", json.dumps(data_sorted, ensure_ascii=False)).replace("__CONTACT__", contact)
+    (OUT / "index.html").write_text(page, encoding="utf-8")
+    disc = (ROOT / "site" / "disclaimer_template.html").read_text(encoding="utf-8")
+    disc = disc.replace("__CONTACT__", contact).replace("__DATA_DATE__", latest).replace("__POLICY_DATE__", POLICY_DATE)
+    (OUT / "disclaimer.html").write_text(disc, encoding="utf-8")
     (OUT / "schemes.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / "updates.html").write_text(updates_page(), encoding="utf-8")
     print(f"Built {OUT / 'index.html'} with {len(data)} schemes")
@@ -60,7 +70,7 @@ pre {{ background:var(--paper); padding:10px; border-radius:6px; overflow-x:auto
 .empty {{ color:var(--muted); border:1px dashed var(--line); border-radius:10px; padding:16px; }}
 </style></head>
 <body><div class="wrap">
-<header><h1>Data updates</h1><a href="index.html">Back to the finder</a></header>
+<header><h1>Data updates</h1><a href="index.html">Back to the finder</a></header>\n<p class="status">Reports come from an automated check of the official pages and may contain mistakes. See the <a href="disclaimer.html">disclaimer</a>.</p>
 <p class="status">{status}</p>
 {body}
 </div></body></html>"""

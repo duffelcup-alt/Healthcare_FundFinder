@@ -148,6 +148,13 @@ tr:last-child td { border-bottom: 0; }
 .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px; font-size: .88rem; opacity: 0; transition: opacity .2s; pointer-events: none; }
 .toast.show { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+.notice { background: var(--warn-bg); color: var(--ink); border-bottom: 1px solid var(--line); }
+.notice .wrap { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; font-size: .9rem; }
+.notice p { margin: 0; max-width: 85ch; }
+.notice .btnrow { flex-shrink: 0; }
+.policy { border-top: 1px solid var(--line); margin-top: 28px; padding-top: 14px; color: var(--muted); font-size: .82rem; display: grid; gap: 6px; max-width: 95ch; }
+.policy p { margin: 0; }
+.est-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-right: 6px; }
 [hidden] { display: none !important; }
 </style>
 </head>
@@ -165,6 +172,15 @@ tr:last-child td { border-bottom: 0; }
     </nav>
   </div>
 </header>
+<div class="notice" id="notice" role="region" aria-label="Disclaimer">
+  <div class="wrap">
+    <p><b>Information only, not advice.</b> Funding rules, budgets and deadlines change often and this tool can be wrong or out of date. Always check the official page and contact the granting agency before you apply or make decisions.</p>
+    <span class="btnrow">
+      <a href="disclaimer.html">Read the full disclaimer</a>
+      <button type="button" class="btn small" id="notice-ok">I understand</button>
+    </span>
+  </div>
+</div>
 
 <main class="wrap">
 <section id="view-match" role="tabpanel" aria-labelledby="tab-match">
@@ -291,14 +307,28 @@ tr:last-child td { border-bottom: 0; }
   <p class="foot" id="count"></p>
 </section>
 
-<p class="foot">Prototype with a hand-checked dataset of 27 schemes. Rules are simplified: always confirm eligibility, rates and deadlines on the official source page before applying. Estimates are indicative and don't account for cumulation rules or de minimis ceilings.</p>
+<footer class="policy">
+  <p><b>Disclaimer.</b> This tool gives general information about public funding schemes in Belgium. It is not legal, tax, financial or grant advice, and a match or estimate is no guarantee that you are eligible or will receive funding. The data comes from official sources and was last checked on <span class="verified-date"></span>, but schemes can change, be suspended or close at any time. Always confirm on the official page and with the granting agency. This tool is independent and not affiliated with VLAIO, Innoviris, SPW, the federal government or any other funding body.</p>
+  <p><b>Your data.</b> What you type in the profile stays in your browser and is not sent anywhere. Your shortlist is saved only in this browser.</p>
+  <p><a href="disclaimer.html">Full disclaimer and privacy</a> · Found an error? Email __CONTACT__</p>
+</footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const DATA = __DATA__;
 const VERIFIED = DATA[0].last_verified;
-document.getElementById("verified").textContent = new Date(VERIFIED).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+const VERIFIED_TEXT = new Date(VERIFIED).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+document.getElementById("verified").textContent = VERIFIED_TEXT;
+document.querySelectorAll(".verified-date").forEach(el => el.textContent = VERIFIED_TEXT);
+const NOTICE_KEY = "hff-disclaimer-ok-v1";
+let noticeOk = false;
+try { noticeOk = localStorage.getItem(NOTICE_KEY) === "1"; } catch(e) {}
+document.getElementById("notice").hidden = noticeOk;
+document.getElementById("notice-ok").addEventListener("click", () => {
+  try { localStorage.setItem(NOTICE_KEY, "1"); } catch(e) {}
+  document.getElementById("notice").hidden = true;
+});
 
 const AVAILABLE = ["Open","Call in progress"];
 const STATUS_CLASS = {"Open":"st-open","Call in progress":"st-call","Suspended":"st-hold","Closed":"st-idle","Closing":"st-warn","Under reform":"st-warn","No current call":"st-idle"};
@@ -449,7 +479,7 @@ function card(r){
       <div><dt>Amount</dt><dd>${amount}</dd></div>
       <div><dt>How to apply</dt><dd>${s.application_mode}${s.max_duration_months ? ` · max ${s.max_duration_months} months` : ""}</dd></div>
     </dl>
-    ${r.est ? `<div class="est">${r.est.text}</div>` : ""}
+    ${r.est ? `<div class="est"><span class="est-label">Indicative</span>${r.est.text}</div>` : ""}
     <div class="why">
       <div><div class="lbl">Why it fits</div><ul>${r.why.map(x=>`<li>${x}</li>`).join("")}</ul></div>
       <div><div class="lbl">Watch out</div><ul>${(r.warn.length? r.warn : ["Nothing flagged"]).map(x=>`<li>${x}</li>`).join("")}</ul></div>
@@ -474,7 +504,8 @@ function renderShortlist(){
 function shortlistText(){
   const p = readProfile();
   const items = shortlist.map(id => DATA.find(d=>d.id===id)).filter(Boolean);
-  return `Funding shortlist${p.name ? " for " + p.name : ""} (data checked ${VERIFIED})\n\n` + items.map((s,i)=>
+  return `Funding shortlist${p.name ? " for " + p.name : ""} (data checked ${VERIFIED})\n` +
+    `Information only, not advice. Check each official page and the granting agency before applying.\n\n` + items.map((s,i)=>
     `${i+1}. ${s.scheme_name} (${s.level}, ${s.agency})\n   ${s.instrument_type} · ${s.funding_rate}\n   Status: ${s.status}. ${s.status_note}\n   ${s.source_url}`).join("\n\n");
 }
 
