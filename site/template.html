@@ -1035,25 +1035,67 @@ function packText(id, p){
   L.push("", `Official information: ${m.a.source}`);
   return L.join("\n");
 }
-function packWordHTML(id, p){
-  const m = packModel(id, p), para = t => esc(t).replace(/\n/g, "<br>");
-  return `<html><head><meta charset="utf-8"><title>${esc(m.s.scheme_name)}</title>
-<style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4}h1{font-size:18pt}h2{font-size:13pt;margin-top:18pt}.g{color:#555;font-style:italic}.todo{color:#9a6400}</style></head><body>
-<h1>${esc(project.title || "Untitled project")}</h1>
-<p><b>Application draft for:</b> ${esc(m.s.scheme_name)} (${esc(m.s.agency)})<br><b>Prepared:</b> ${fmtDay(TODAY)}</p>
-<p class="g">Draft prepared with the Healthcare Startup Funding Finder. Information only, not advice: check the official requirements before submitting. Use the official template where the scheme requires one.</p>
-${m.secs.map((x, i) => `<h2>${i + 1}. ${esc(x.h)}</h2>${x.g ? `<p class="g">Assessors look for: ${esc(x.g)}</p>` : ""}<p${x.text ? "" : ' class="todo"'}>${x.text ? para(x.text) : "[To write]"}</p>`).join("")}
-<h2>Budget</h2><p>${m.calc.html}</p>
-<h2>Documents to prepare</h2><ul>${m.docs.map(d => `<li>${esc(d.t)}</li>`).join("")}</ul>
-<h2>Steps</h2><ol>${m.a.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
-${m.gaps.length ? `<h2>Still missing</h2><ul>${m.gaps.map(g => `<li>${esc(g)}</li>`).join("")}</ul>` : ""}
-<p class="g">Official information: ${esc(m.a.source)}</p></body></html>`;
+/* ---- Real .docx, built in the browser: a ZIP (stored, no compression) of a few XML parts. ---- */
+const CRC_TABLE = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_TABLE[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+function zipStore(files){
+  const enc = new TextEncoder(), parts = [], central = []; let offset = 0;
+  const u16 = n => [n & 255, (n >>> 8) & 255], u32 = n => [n & 255, (n >>> 8) & 255, (n >>> 16) & 255, (n >>> 24) & 255];
+  for (const [name, text] of files) {
+    const nb = enc.encode(name), data = enc.encode(text), crc = crc32(data);
+    const common = [...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0x21), ...u32(crc), ...u32(data.length), ...u32(data.length), ...u16(nb.length), ...u16(0)];
+    const local = new Uint8Array([...u32(0x04034b50), ...common, ...nb]);
+    parts.push(local, data);
+    central.push(new Uint8Array([...u32(0x02014b50), ...u16(20), ...common, ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(offset), ...nb]));
+    offset += local.length + data.length;
+  }
+  const cdSize = central.reduce((a, c) => a + c.length, 0);
+  const end = new Uint8Array([...u32(0x06054b50), ...u16(0), ...u16(0), ...u16(files.length), ...u16(files.length), ...u32(cdSize), ...u32(offset), ...u16(0)]);
+  return new Blob([...parts, ...central, end], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
 }
-function downloadWord(id, p){
-  const blob = new Blob(["﻿" + packWordHTML(id, p)], {type: "application/msword"});
+function packDocx(id, p){
+  const m = packModel(id, p);
+  const x = t => String(t ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+  const run = (t, o = {}) => `<w:r><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>${o.b ? "<w:b/>" : ""}${o.i ? "<w:i/>" : ""}${o.color ? `<w:color w:val="${o.color}"/>` : ""}<w:sz w:val="${o.sz || 22}"/></w:rPr>${String(t).split("\n").map(l => `<w:t xml:space="preserve">${x(l)}</w:t>`).join("<w:br/>")}</w:r>`;
+  const para = (t, o = {}) => `<w:p><w:pPr><w:spacing w:before="${o.before || 0}" w:after="120"/>${o.list ? `<w:ind w:left="360" w:hanging="360"/>` : ""}</w:pPr>${run(t, o)}</w:p>`;
+  const plain = h => h.replace(/<\/div>/g, "\n").replace(/<[^>]+>/g, "").trim();
+  const body = [
+    para(project.title || "Untitled project", {b: true, sz: 36}),
+    para(`Application draft for: ${m.s.scheme_name} (${m.s.agency})`, {b: true}),
+    para(`Prepared ${fmtDay(TODAY)}`),
+    para("Draft prepared with the Healthcare Startup Funding Finder. Information only, not advice: check the official requirements before submitting, and use the official template where the scheme requires one.", {i: true, color: "666666", sz: 20}),
+    ...m.secs.flatMap((s2, i) => [
+      para(`${i + 1}. ${s2.h}`, {b: true, sz: 26, before: 240}),
+      ...(s2.g ? [para(`Assessors look for: ${s2.g}`, {i: true, color: "666666", sz: 20})] : []),
+      para(s2.text || "[To write]", s2.text ? {} : {color: "9A6400"}),
+    ]),
+    para("Budget", {b: true, sz: 26, before: 240}), para(plain(m.calc.html)),
+    para("Documents to prepare", {b: true, sz: 26, before: 240}), ...m.docs.map(d => para("☐ " + d.t, {list: true})),
+    para("Steps", {b: true, sz: 26, before: 240}), ...m.a.steps.map((t, i) => para(`${i + 1}. ${t}`, {list: true})),
+    ...(m.gaps.length ? [para("Still missing", {b: true, sz: 26, before: 240}), ...m.gaps.map(g => para("• " + g, {list: true, color: "A33A2B"}))] : []),
+    para(`Official information: ${m.a.source}`, {i: true, color: "666666", sz: 20, before: 240}),
+  ].join("");
+  const W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+  return zipStore([
+    ["[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`],
+    ["_rels/.rels", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`],
+    ["word/document.xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${W}><w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1418" w:right="1418" w:bottom="1418" w:left="1418" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>`],
+  ]);
+}
+/* In the claude.ai viewer, files go through its download prompt; elsewhere a normal download. */
+let viewerDownloads;
+const downloadsReady = (window.claude && typeof window.claude.use === "function")
+  ? window.claude.use("downloads").then(d => (viewerDownloads = d), () => (viewerDownloads = null)) : Promise.resolve(null);
+async function downloadWord(id, p){
+  const blob = packDocx(id, p), filename = `${id}-application-draft.docx`;
+  await downloadsReady;
+  if (viewerDownloads) {
+    try { await viewerDownloads.save({filename, data: blob}); toast("Word file saved"); }
+    catch (e) { toast(e && e.code === "declined" ? "Download cancelled" : "Download isn't available here: use Copy text"); }
+    return;
+  }
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `${id}-application-draft.doc`;
+  a.href = URL.createObjectURL(blob); a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   toast("Word file downloading. If nothing happens, use Copy text.");
