@@ -7,7 +7,7 @@
 #            change data/schemes.json on their own.
 
 defaults:
-  user_agent: "HealthFundingFinderBot/0.1 (+contact: you@example.com)"   # put a real contact address here
+  user_agent: "HealthFundingFinderBot/0.1 (+contact: duffelcup@gmail.com)"
   timeout_seconds: 30
   delay_per_host_seconds: 3
   max_failures_before_alert: 3
