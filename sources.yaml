@@ -1,0 +1,63 @@
+# Pages the scraper checks every day.
+#
+# schemes:   one entry per scheme in data/schemes.json. "url" defaults to the
+#            scheme's source_url; add "extra_urls" for call pages or news pages.
+# discovery: overview pages where NEW schemes or calls usually appear first.
+#            Changes here are reported for a human to look at; they never
+#            change data/schemes.json on their own.
+
+defaults:
+  user_agent: "HealthFundingFinderBot/0.1 (+contact: you@example.com)"   # put a real contact address here
+  timeout_seconds: 30
+  delay_per_host_seconds: 3
+  max_failures_before_alert: 3
+
+schemes:
+  FED-01: {}
+  FED-02: {}
+  FED-03: {}
+  FED-04: {}
+  FED-05: {}
+  FED-06: {}
+  VL-01: {}
+  VL-02: {}
+  VL-03: {}
+  VL-04:
+    extra_urls:
+      - https://www.uhasselt.be/en/calls-research/detail/1770-vlaio-biovia-project-call-2026-2
+  VL-05: {}
+  VL-06: {}
+  VL-07: {}
+  VL-08:
+    extra_urls:
+      - https://vlaio.be/kmo-portefeuille
+  VL-09: {}
+  BR-01:
+    url: https://www.innoviris.brussels/program-calendar
+  BR-02: {}
+  BR-03: {}
+  BR-04: {}
+  BR-05: {}
+  WA-01: {}
+  WA-02: {}
+  WA-03: {}
+  WA-04: {}
+  WA-05: {}
+  WA-06:
+    extra_urls:
+      - https://www.wallonie-entreprendre.be/en/news/funding/
+  WA-07: {}
+
+discovery:
+  - name: VLAIO - changed measures
+    url: https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/gewijzigde-maatregelen
+  - name: Innoviris - programme calendar
+    url: https://www.innoviris.brussels/program-calendar
+  - name: Biovia - VLAIO funding calls
+    url: https://www.biovia.be/vlaio-funding
+  - name: Wallonia - competitiveness cluster calls
+    url: https://www.wallonie.be/fr/demarches/repondre-un-appel-projets-dun-pole-de-competitivite
+  - name: Wallonie Entreprendre - funding news
+    url: https://www.wallonie-entreprendre.be/en/news/funding/
+  - name: Health Data Agency - innovation funding
+    url: https://www.hda.belgium.be/en/services/innovation-project-funding

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthcare Startup Funding Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: profile panel left, ranked matches right; browse tab is a dense table. */
+  --ink: #14232b;
+  --muted: #5a6b74;
+  --paper: #f5f7f7;
+  --surface: #ffffff;
+  --line: #d9e1e3;
+  --accent: #0b6e6e;
+  --accent-soft: #e1f0ef;
+  --ok: #2f7d3b; --ok-bg: #e5f3e7;
+  --warn: #9a6400; --warn-bg: #fbf0d9;
+  --bad: #a33a2b; --bad-bg: #f9e3df;
+  --idle: #5a6b74; --idle-bg: #eceff0;
+  --display: "Source Serif 4", Georgia, serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #e4ecee; --muted: #9aabb2; --paper: #10191d; --surface: #172328; --line: #2a3a40;
+    --accent: #4fc0b8; --accent-soft: #173a3a;
+    --ok: #7fcf8a; --ok-bg: #1c3322; --warn: #e8b85a; --warn-bg: #3a2e14;
+    --bad: #f09484; --bad-bg: #3c201b; --idle: #9aabb2; --idle-bg: #222f34;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ink: #e4ecee; --muted: #9aabb2; --paper: #10191d; --surface: #172328; --line: #2a3a40;
+  --accent: #4fc0b8; --accent-soft: #173a3a;
+  --ok: #7fcf8a; --ok-bg: #1c3322; --warn: #e8b85a; --warn-bg: #3a2e14;
+  --bad: #f09484; --bad-bg: #3c201b; --idle: #9aabb2; --idle-bg: #222f34;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 15px/1.5 var(--body); }
+a { color: var(--accent); }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+header.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 20px; }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; padding-top: 18px; }
+h1 { font-family: var(--display); font-size: 1.6rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 4px 0 0; font-size: .92rem; }
+.demo-flag { font-size: .78rem; font-weight: 600; color: var(--warn); background: var(--warn-bg); padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; font-family: var(--body); }
+nav.tabs { display: flex; gap: 4px; }
+nav.tabs button { background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font-weight: 600; color: var(--muted); cursor: pointer; }
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+main { padding: 20px 0 48px; }
+.layout { display: grid; grid-template-columns: 330px 1fr; gap: 20px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.panel h2 { font-family: var(--display); font-size: 1.15rem; margin: 0 0 4px; }
+.panel .hint { color: var(--muted); font-size: .85rem; margin: 0 0 14px; }
+form.profile { display: grid; gap: 14px; position: sticky; top: 12px; }
+.field { display: grid; gap: 5px; }
+.field > label, .field > .lbl { font-weight: 600; font-size: .88rem; }
+.field input[type="text"], .field input[type="number"], .field select {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper);
+}
+.checks { display: grid; gap: 4px; }
+.checks label { display: flex; gap: 8px; align-items: start; font-size: .9rem; cursor: pointer; }
+.checks input { margin-top: 4px; accent-color: var(--accent); }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg label { cursor: pointer; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span { display: inline-block; padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; font-size: .86rem; background: var(--paper); }
+.seg input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+.seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--surface); padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.small { padding: 4px 10px; font-size: .84rem; }
+
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.stat b { display: block; font-family: var(--display); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: .84rem; }
+
+.section-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 6px 0 10px; flex-wrap: wrap; }
+.section-h h3 { font-family: var(--display); font-size: 1.15rem; margin: 0; }
+.section-h p { margin: 0; color: var(--muted); font-size: .86rem; }
+
+.cards { display: grid; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; }
+.card.dim { border-left-color: var(--idle); }
+.card-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+.card h4 { margin: 0; font-size: 1.02rem; line-height: 1.3; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chip { font-size: .76rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--idle-bg); color: var(--idle); white-space: nowrap; }
+.chip.lvl { background: var(--accent-soft); color: var(--accent); }
+.chip.health { background: var(--ok-bg); color: var(--ok); }
+.pill { font-size: .76rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.st-open { background: var(--ok-bg); color: var(--ok); }
+.st-call { background: var(--accent-soft); color: var(--accent); }
+.st-hold { background: var(--bad-bg); color: var(--bad); }
+.st-warn { background: var(--warn-bg); color: var(--warn); }
+.st-idle { background: var(--idle-bg); color: var(--idle); }
+.score { text-align: right; min-width: 64px; }
+.score b { font-family: var(--display); font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+.score span { display: block; font-size: .72rem; color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px 16px; font-size: .88rem; }
+.facts dt { color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.why { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; font-size: .88rem; }
+@media (max-width: 600px) { .why { grid-template-columns: 1fr; } }
+.why ul { margin: 0; padding-left: 18px; }
+.why .lbl { font-weight: 600; font-size: .8rem; color: var(--muted); }
+.card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-size: .84rem; }
+.est { background: var(--accent-soft); color: var(--ink); padding: 6px 10px; border-radius: 6px; font-size: .86rem; }
+.est b { font-variant-numeric: tabular-nums; }
+
+.watch { display: grid; gap: 6px; }
+.watch-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font-size: .88rem; }
+.watch-row small { color: var(--muted); display: block; }
+.empty { color: var(--muted); padding: 16px; border: 1px dashed var(--line); border-radius: 10px; }
+
+.shortlist { margin-top: 18px; }
+.shortlist ol { margin: 0; padding-left: 20px; font-size: .9rem; }
+.shortlist li { margin: 3px 0; }
+
+/* browse */
+.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; align-items: end; }
+.filters .field { min-width: 160px; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--paper); position: sticky; top: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.foot { color: var(--muted); font-size: .8rem; margin-top: 18px; max-width: 75ch; }
+.toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px; font-size: .88rem; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Healthcare Startup Funding Finder <span class="demo-flag">Prototype</span></h1>
+      <p class="sub">Federal and regional Belgian schemes for healthcare startups · data checked <span id="verified"></span></p>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" id="tab-match" aria-selected="true" aria-controls="view-match">Find matches</button>
+      <button role="tab" id="tab-browse" aria-selected="false" aria-controls="view-browse">All schemes</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="view-match" role="tabpanel" aria-labelledby="tab-match">
+  <div class="layout">
+    <form class="panel profile" id="profile" autocomplete="off">
+      <div>
+        <h2>Your startup</h2>
+        <p class="hint">Filled in with an example company. Change anything and the results update.</p>
+      </div>
+      <div class="field">
+        <label for="name">Company name</label>
+        <input type="text" id="name" value="Example: CardioSense BV">
+      </div>
+      <div class="field">
+        <span class="lbl">Where is your main site?</span>
+        <div class="seg" role="radiogroup" aria-label="Region">
+          <label><input type="radio" name="region" value="Flanders" id="r-fl" checked><span>Flanders</span></label>
+          <label><input type="radio" name="region" value="Brussels" id="r-br"><span>Brussels</span></label>
+          <label><input type="radio" name="region" value="Wallonia" id="r-wa"><span>Wallonia</span></label>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="founded">Year founded</label>
+          <input type="number" id="founded" min="1990" max="2026" value="2024">
+        </div>
+        <div class="field">
+          <label for="size">Company size</label>
+          <select id="size">
+            <option value="micro" selected>Micro (&lt;10 staff)</option>
+            <option value="small">Small (&lt;50)</option>
+            <option value="medium">Medium (&lt;250)</option>
+            <option value="large">Large (250+)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="focus">Field</label>
+        <select id="focus">
+          <option value="medtech" selected>Medtech / medical devices</option>
+          <option value="biotech">Biotech / pharma</option>
+          <option value="digital">Digital health / health data</option>
+          <option value="care">Care services &amp; organisation</option>
+        </select>
+      </div>
+      <div class="field">
+        <span class="lbl">What do you need funding for?</span>
+        <div class="checks">
+          <label><input type="checkbox" name="need" value="rd" id="n-rd" checked> An R&amp;D or development project</label>
+          <label><input type="checkbox" name="need" value="researchers" id="n-res" checked> Paying researchers / R&amp;D staff</label>
+          <label><input type="checkbox" name="need" value="equity" id="n-eq" checked> Raising investment</label>
+          <label><input type="checkbox" name="need" value="expertise" id="n-exp"> Buying outside expertise or tests</label>
+          <label><input type="checkbox" name="need" value="investment" id="n-inv"> Equipment, investment or training</label>
+          <label><input type="checkbox" name="need" value="ip" id="n-ip"> Income from patents or software</label>
+          <label><input type="checkbox" name="need" value="spinoff" id="n-spin"> Starting a university spin-off</label>
+        </div>
+      </div>
+      <div class="field">
+        <span class="lbl">Who would you apply with?</span>
+        <div class="checks">
+          <label><input type="checkbox" id="c-cons" checked> Open to a consortium with other companies</label>
+          <label><input type="checkbox" id="c-uni"> We work with a university or research centre</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="budget">Project budget (€, optional)</label>
+        <input type="number" id="budget" min="0" step="10000" value="300000">
+      </div>
+      <div class="btnrow">
+        <button type="button" class="btn ghost small" id="reset">Reset example</button>
+      </div>
+    </form>
+
+    <div>
+      <div class="summary" id="summary"></div>
+      <div class="section-h">
+        <h3>Available now</h3>
+        <p>Ranked by fit with your profile</p>
+      </div>
+      <div class="cards" id="matches"></div>
+
+      <div class="section-h" style="margin-top:22px">
+        <h3>Watchlist: matches that are on hold or closed</h3>
+        <p>These fit your profile but you can't apply today</p>
+      </div>
+      <div class="watch" id="watch"></div>
+
+      <div class="panel shortlist" id="shortlist-panel">
+        <div class="section-h" style="margin-top:0">
+          <h3>Your shortlist</h3>
+          <button type="button" class="btn ghost small" id="copy-shortlist">Copy shortlist</button>
+        </div>
+        <div id="shortlist"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="view-browse" role="tabpanel" aria-labelledby="tab-browse" hidden>
+  <div class="filters">
+    <div class="field">
+      <label for="q">Search</label>
+      <input type="text" id="q" placeholder="Name, agency, condition…">
+    </div>
+    <div class="field">
+      <label for="f-level">Level</label>
+      <select id="f-level"><option value="">All levels</option><option>Federal</option><option>Flanders</option><option>Brussels</option><option>Wallonia</option></select>
+    </div>
+    <div class="field">
+      <label for="f-status">Status</label>
+      <select id="f-status"><option value="">All statuses</option></select>
+    </div>
+    <div class="field">
+      <label for="f-type">Instrument</label>
+      <select id="f-type"><option value="">All instruments</option></select>
+    </div>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Level</th><th>Instrument</th><th>Funding rate</th><th>Max amount</th><th>Status</th><th>Next step</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <p class="foot" id="count"></p>
+</section>
+
+<p class="foot">Prototype with a hand-checked dataset of 27 schemes. Rules are simplified: always confirm eligibility, rates and deadlines on the official source page before applying. Estimates are indicative and don't account for cumulation rules or de minimis ceilings.</p>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const DATA = __DATA__;
+const VERIFIED = DATA[0].last_verified;
+document.getElementById("verified").textContent = new Date(VERIFIED).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+
+const AVAILABLE = ["Open","Call in progress"];
+const STATUS_CLASS = {"Open":"st-open","Call in progress":"st-call","Suspended":"st-hold","Closed":"st-idle","Closing":"st-warn","Under reform":"st-warn","No current call":"st-idle"};
+const SIZE_LABEL = {micro:"micro",small:"small",medium:"medium-sized",large:"large"};
+const NEED_LABEL = {rd:"R&D project",researchers:"R&D staff costs",equity:"raising investment",expertise:"outside expertise",investment:"investment/training",ip:"IP income",spinoff:"spin-off creation"};
+const CURRENT_YEAR = 2026;
+const eur = n => "€" + Math.round(n).toLocaleString("en-GB");
+
+let shortlist = [];
+try { shortlist = JSON.parse(localStorage.getItem("hsff-shortlist") || "[]"); } catch(e) { shortlist = []; }
+function saveShortlist(){ try { localStorage.setItem("hsff-shortlist", JSON.stringify(shortlist)); } catch(e) {} }
+
+function readProfile(){
+  const f = document.getElementById("profile");
+  return {
+    name: f.querySelector("#name").value.trim(),
+    region: f.querySelector('input[name="region"]:checked').value,
+    age: Math.max(0, CURRENT_YEAR - (parseInt(f.querySelector("#founded").value,10) || CURRENT_YEAR)),
+    size: f.querySelector("#size").value,
+    focus: f.querySelector("#focus").value,
+    needs: [...f.querySelectorAll('input[name="need"]:checked')].map(i=>i.value),
+    consortium: f.querySelector("#c-cons").checked,
+    uni: f.querySelector("#c-uni").checked,
+    budget: parseFloat(f.querySelector("#budget").value) || 0
+  };
+}
+
+/* Matching: hard filters decide eligibility, then a score ranks fit. */
+function evaluate(s, p){
+  const why = [], warn = [];
+  let ok = true, score = 40;
+  // region
+  if (s.level !== "Federal" && s.level !== p.region) return null;
+  why.push(s.level === "Federal" ? "Federal: applies anywhere in Belgium" : `Regional scheme for ${p.region}`);
+  // size
+  if (s.sizes && !s.sizes.includes(p.size)) return null;
+  if (s.sizes && s.sizes.length < 4) { why.push(`Open to ${SIZE_LABEL[p.size]} companies`); score += 5; }
+  // age
+  if (s.max_company_age_years && p.age > s.max_company_age_years) return null;
+  if (s.min_age && p.age < s.min_age) return null;
+  if (s.max_company_age_years) { why.push(`Your company (${p.age} yr) is within the ${s.max_company_age_years}-year limit`); score += 5; }
+  // who applies
+  if (s.applicant.startsWith("University-led")) {
+    if (!p.uni) return null;
+    why.push("You work with a university, which leads this scheme"); score -= 5;
+  }
+  if (s.consortium_required === "Yes" && !s.applicant.startsWith("University-led")) {
+    if (!p.consortium) return null;
+    warn.push("Requires a consortium" + (s.id === "VL-04" ? " of at least 3 partners" : ""));
+  }
+  // needs
+  const hit = (s.tags || []).filter(t => p.needs.includes(t));
+  if (p.needs.length && !hit.length) return null;
+  hit.forEach(t => why.push(`Covers ${NEED_LABEL[t]}`));
+  score += hit.length * 12;
+  // health
+  if (s.health_specific === "Yes") { why.push("Reserved for healthcare projects"); score += 15; }
+  if (s.focus && !s.focus.includes(p.focus)) { score -= 10; warn.push("Mainly aimed at " + s.focus.join(", ")); }
+  // instrument
+  if (s.instrument_type === "Tax incentive") { score -= 12; warn.push("Tax benefit, not cash up front"); }
+  if (s.instrument_type === "Convertible loan") warn.push("Loan that converts to equity, not a grant");
+  if (s.instrument_type.includes("Repayable")) warn.push("Can be a repayable advance for later-stage work");
+  if (s.funding_rate === "Not checked") warn.push("Funding rate not yet verified");
+  if (s.id === "VL-04") warn.push("2026.2 abstracts closed 12 Nov; two calls a year, prepare for the next one");
+  if (s.id === "VL-01" && p.age > 3) warn.push("Meant for very early starters");
+  if (s.id === "FED-02" && !p.needs.includes("ip")) warn.push("Only useful once you earn IP income");
+  if (s.de_minimis === "Yes") warn.push("Counts toward the de minimis ceiling");
+  // status
+  const available = AVAILABLE.includes(s.status);
+  if (s.status === "Call in progress") { score -= 3; }
+  // estimate
+  const est = estimate(s, p);
+  return { s, score: Math.max(1, Math.min(99, score)), why, warn, available, est };
+}
+
+function estimate(s, p){
+  const b = p.budget;
+  switch (s.id) {
+    case "VL-01": return { text: `Fixed grant of <b>${eur(50000)}</b>` };
+    case "VL-02": {
+      if (!b) return null;
+      const rate = (p.size === "micro" || p.size === "small") ? 0.45 : 0.25;
+      const amt = b * rate;
+      if (amt < 25000) return { text: `Budget too small: aid must be at least ${eur(25000)}` };
+      return { text: `About <b>${eur(amt)}</b> (${rate*100}% of ${eur(b)}; ${p.size==="micro"||p.size==="small" ? "25% base + 20% small-company bonus" : "25% base, bonuses may apply"})` };
+    }
+    case "VL-03": {
+      if (!b) return null;
+      const lo = b*0.25, hi = b*0.6;
+      if (hi < 100000) return { text: `Budget too small: aid must be at least ${eur(100000)}` };
+      return { text: `Between <b>${eur(Math.max(lo,100000))}</b> and <b>${eur(Math.min(hi,3000000))}</b> (25–60%)` };
+    }
+    case "WA-01": {
+      if (!b) return null;
+      const r = {micro:.7, small:.7, medium:.6, large:.5}[p.size];
+      return { text: `Up to <b>${eur(b*r)}</b> as a grant for industrial research (${r*100}%)` };
+    }
+    case "WA-06": return { text: `<b>${eur(100000)}</b> convertible loan` };
+    case "FED-03": return { text: `Investors get <b>${p.size==="micro"?"45%":"30%"}</b> back as a tax cut; you can raise up to ${eur(500000)}` };
+    default: return null;
+  }
+}
+
+function render(){
+  const p = readProfile();
+  const res = DATA.map(s => evaluate(s, p)).filter(Boolean).sort((a,b)=> b.available - a.available || b.score - a.score);
+  const now = res.filter(r=>r.available), later = res.filter(r=>!r.available);
+  const health = now.filter(r=>r.s.health_specific==="Yes").length;
+  const nextDl = now.map(r=>r.s.next_deadline).filter(Boolean).sort()[0];
+  document.getElementById("summary").innerHTML = `
+    <div class="stat"><b>${now.length}</b><span>schemes you can use now</span></div>
+    <div class="stat"><b>${health}</b><span>of those healthcare-specific</span></div>
+    <div class="stat"><b>${later.length}</b><span>fitting schemes on hold or closed</span></div>
+    <div class="stat"><b>${nextDl ? new Date(nextDl).toLocaleDateString("en-GB",{day:"numeric",month:"short"}) : "Rolling"}</b><span>${nextDl ? "next deadline" : "no fixed deadline among matches"}</span></div>`;
+
+  const m = document.getElementById("matches");
+  m.innerHTML = now.length ? now.map(card).join("") : `<div class="empty">No available scheme fits this profile. Try selecting more funding needs, or tick “Open to a consortium”.</div>`;
+  const w = document.getElementById("watch");
+  w.innerHTML = later.length ? later.map(r => `
+    <div class="watch-row">
+      <div><b>${r.s.scheme_name}</b> <span class="chip lvl">${r.s.level}</span>
+        <small>${r.s.status_note}</small></div>
+      <span class="pill ${STATUS_CLASS[r.s.status]}">${r.s.status}</span>
+    </div>`).join("") : `<div class="empty">Nothing on hold for this profile.</div>`;
+  renderShortlist();
+}
+
+function card(r){
+  const s = r.s, inList = shortlist.includes(s.id);
+  const amount = s.amount_max_eur ? (s.amount_min_eur && s.amount_min_eur !== s.amount_max_eur ? `${eur(s.amount_min_eur)} – ${eur(s.amount_max_eur)}` : `up to ${eur(s.amount_max_eur)}`) : (s.amount_min_eur ? `from ${eur(s.amount_min_eur)}` : "Not capped / not published");
+  return `
+  <article class="card">
+    <div class="card-head">
+      <div>
+        <h4>${s.scheme_name}</h4>
+        <div class="meta">
+          <span class="chip lvl">${s.level}</span>
+          <span class="chip">${s.agency}</span>
+          <span class="chip">${s.instrument_type}</span>
+          ${s.health_specific==="Yes" ? '<span class="chip health">Healthcare only</span>' : ""}
+          <span class="pill ${STATUS_CLASS[s.status]}">${s.status}</span>
+        </div>
+      </div>
+      <div class="score"><b>${r.score}</b><span>fit score</span></div>
+    </div>
+    <dl class="facts">
+      <div><dt>Funding</dt><dd>${s.funding_rate}</dd></div>
+      <div><dt>Amount</dt><dd>${amount}</dd></div>
+      <div><dt>How to apply</dt><dd>${s.application_mode}${s.max_duration_months ? ` · max ${s.max_duration_months} months` : ""}</dd></div>
+    </dl>
+    ${r.est ? `<div class="est">${r.est.text}</div>` : ""}
+    <div class="why">
+      <div><div class="lbl">Why it fits</div><ul>${r.why.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      <div><div class="lbl">Watch out</div><ul>${(r.warn.length? r.warn : ["Nothing flagged"]).map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    </div>
+    <div class="card-foot">
+      <span>${s.status_note}</span>
+      <span class="btnrow">
+        <a href="${s.source_url}" target="_blank" rel="noopener">Official page</a>
+        <button type="button" class="btn small ${inList ? "" : "ghost"}" data-toggle="${s.id}" aria-pressed="${inList}">${inList ? "On shortlist" : "Add to shortlist"}</button>
+      </span>
+    </div>
+  </article>`;
+}
+
+function renderShortlist(){
+  const el = document.getElementById("shortlist");
+  const items = shortlist.map(id => DATA.find(d=>d.id===id)).filter(Boolean);
+  el.innerHTML = items.length ? `<ol>${items.map(s=>`<li><b>${s.scheme_name}</b> (${s.level}) · ${s.status}${s.next_deadline ? " · deadline " + s.next_deadline : ""} <button type="button" class="btn ghost small" data-remove="${s.id}">Remove</button></li>`).join("")}</ol>`
+    : `<p class="hint" style="margin:0">Add schemes from the results to build a list you can copy into an email or plan.</p>`;
+}
+
+function shortlistText(){
+  const p = readProfile();
+  const items = shortlist.map(id => DATA.find(d=>d.id===id)).filter(Boolean);
+  return `Funding shortlist${p.name ? " for " + p.name : ""} (data checked ${VERIFIED})\n\n` + items.map((s,i)=>
+    `${i+1}. ${s.scheme_name} (${s.level}, ${s.agency})\n   ${s.instrument_type} · ${s.funding_rate}\n   Status: ${s.status}. ${s.status_note}\n   ${s.source_url}`).join("\n\n");
+}
+
+function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2200); }
+
+document.addEventListener("click", e => {
+  const tg = e.target.closest("[data-toggle]");
+  if (tg) { const id = tg.dataset.toggle; shortlist = shortlist.includes(id) ? shortlist.filter(x=>x!==id) : [...shortlist, id]; saveShortlist(); render(); return; }
+  const rm = e.target.closest("[data-remove]");
+  if (rm) { shortlist = shortlist.filter(x=>x!==rm.dataset.remove); saveShortlist(); render(); }
+});
+document.getElementById("copy-shortlist").addEventListener("click", async () => {
+  if (!shortlist.length) { toast("Your shortlist is empty"); return; }
+  try { await navigator.clipboard.writeText(shortlistText()); toast("Shortlist copied"); }
+  catch(e) { toast("Copying was blocked by the browser"); }
+});
+const form = document.getElementById("profile");
+form.addEventListener("input", render);
+form.addEventListener("change", render);
+form.addEventListener("submit", e => e.preventDefault());
+document.getElementById("reset").addEventListener("click", () => { form.reset(); render(); });
+
+/* Browse tab */
+const fStatus = document.getElementById("f-status"), fType = document.getElementById("f-type");
+[...new Set(DATA.map(d=>d.status))].forEach(v => fStatus.add(new Option(v,v)));
+[...new Set(DATA.map(d=>d.instrument_type))].sort().forEach(v => fType.add(new Option(v,v)));
+function renderTable(){
+  const q = document.getElementById("q").value.toLowerCase(), lv = document.getElementById("f-level").value, st = fStatus.value, ty = fType.value;
+  const rows = DATA.filter(d => (!lv||d.level===lv) && (!st||d.status===st) && (!ty||d.instrument_type===ty) &&
+    (!q || [d.scheme_name,d.agency,d.key_conditions,d.status_note].join(" ").toLowerCase().includes(q)));
+  document.getElementById("tbody").innerHTML = rows.map(d => `<tr>
+    <td><a href="${d.source_url}" target="_blank" rel="noopener"><b>${d.scheme_name}</b></a><br><span style="color:var(--muted)">${d.agency}</span></td>
+    <td>${d.level}</td><td>${d.instrument_type}</td><td>${d.funding_rate}</td>
+    <td class="num">${d.amount_max_eur ? eur(d.amount_max_eur) : "–"}</td>
+    <td><span class="pill ${STATUS_CLASS[d.status]}">${d.status}</span></td>
+    <td>${d.status_note}</td></tr>`).join("");
+  document.getElementById("count").textContent = `${rows.length} of ${DATA.length} schemes shown.`;
+}
+["q","f-level","f-status","f-type"].forEach(id => document.getElementById(id).addEventListener("input", renderTable));
+
+/* Tabs */
+const tabs = {match: document.getElementById("tab-match"), browse: document.getElementById("tab-browse")};
+function show(name){
+  Object.entries(tabs).forEach(([k,b]) => { b.setAttribute("aria-selected", k===name); document.getElementById("view-"+k).hidden = k!==name; });
+}
+tabs.match.addEventListener("click", ()=>{ show("match"); history.replaceState(null,"","#match"); });
+tabs.browse.addEventListener("click", ()=>{ show("browse"); history.replaceState(null,"","#browse"); });
+function fromHash(){ show(location.hash === "#browse" ? "browse" : "match"); }
+window.addEventListener("hashchange", fromHash);
+
+fromHash(); render(); renderTable();
+</script>
+</body>
+</html>
