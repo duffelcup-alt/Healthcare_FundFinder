@@ -39,12 +39,12 @@ def _key(url: str) -> str:
 
 
 def load_state() -> dict:
-    return json.loads(INDEX.read_text()) if INDEX.exists() else {}
+    return json.loads(INDEX.read_text(encoding="utf-8")) if INDEX.exists() else {}
 
 
 def save_state(state: dict) -> None:
     STATE_DIR.mkdir(exist_ok=True)
-    INDEX.write_text(json.dumps(state, indent=1, sort_keys=True))
+    INDEX.write_text(json.dumps(state, indent=1, sort_keys=True), encoding="utf-8")
 
 
 def diff_text(old: str, new: str, limit: int = 120) -> str:
@@ -65,12 +65,12 @@ def check_url(fetcher, url: str, state: dict, today: str) -> dict:
     text = main_text(res.html)
     h = fingerprint(text)
     snap = SNAP_DIR / f"{_key(url)}.txt"
-    old = snap.read_text() if snap.exists() else None
+    old = snap.read_text(encoding="utf-8") if snap.exists() else None
     st.update(failures=0, last_ok=today, last_error=None)
     out = {"url": url, "ok": True, "text": text, "changed": False, "baseline": old is None}
     if old is None or st.get("hash") != h:
         SNAP_DIR.mkdir(parents=True, exist_ok=True)
-        snap.write_text(text)
+        snap.write_text(text, encoding="utf-8")
         st["hash"] = h
         if old is not None:
             st["last_changed"] = today
@@ -79,12 +79,12 @@ def check_url(fetcher, url: str, state: dict, today: str) -> dict:
 
 
 def run(apply: bool, only: list[str] | None, today: date, fetcher=None) -> dict:
-    cfg = yaml.safe_load((ROOT / "sources.yaml").read_text())
+    cfg = yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8"))
     d = cfg.get("defaults", {})
     fetcher = fetcher or Fetcher(d.get("user_agent", "HealthFundingFinderBot/0.1"),
                                  d.get("timeout_seconds", 30), d.get("delay_per_host_seconds", 3))
     max_fail = d.get("max_failures_before_alert", 3)
-    schemes = json.loads(DATA.read_text())
+    schemes = json.loads(DATA.read_text(encoding="utf-8"))
     by_id = {s["id"]: s for s in schemes}
     state = load_state()
     t = today.isoformat()
@@ -133,8 +133,13 @@ def run(apply: bool, only: list[str] | None, today: date, fetcher=None) -> dict:
             why.append(f"Future date near deadline wording: **{nd.isoformat()}** (“{sig.deadlines[0][1]}”)")
 
         proposal = llm.propose(rec, page_text, diff, t)
+        fixes = []
+        if hinted and hinted != current and not (hinted == "Open" and current == "Call in progress"):
+            fixes.append(f'set_field.bat {sid} status="{hinted}"')
+        if nd and nd.isoformat() != rec.get("next_deadline"):
+            fixes.append(f"set_field.bat {sid} next_deadline={nd.isoformat()}")
         item = {"id": sid, "title": rec["scheme_name"], "urls": [r["url"] for r in changed],
-                "why": why or ["Page text changed"], "diff": diff, "proposal": proposal}
+                "why": why or ["Page text changed"], "diff": diff, "proposal": proposal, "fixes": fixes}
 
         if apply and proposal and proposal["confidence"] >= AUTO_APPLY_CONFIDENCE \
                 and set(proposal["changes"]) <= AUTO_FIELDS:
@@ -161,7 +166,7 @@ def run(apply: bool, only: list[str] | None, today: date, fetcher=None) -> dict:
 
     save_state(state)
     if apply:
-        DATA.write_text(json.dumps(schemes, indent=1, ensure_ascii=False))
+        DATA.write_text(json.dumps(schemes, indent=1, ensure_ascii=False), encoding="utf-8")
     write_report(report)
     return report
 
@@ -175,7 +180,7 @@ def write_report(rep: dict) -> None:
     (REPORTS / "latest.json").write_text(json.dumps(
         {k: rep[k] for k in ("date", "checked", "baselines", "llm")} |
         {k: len(rep[k]) for k in ("applied", "review", "deadlines_passed", "discovery", "broken")} |
-        {"has_news": has_news(rep)}, indent=1))
+        {"has_news": has_news(rep)}, indent=1), encoding="utf-8")
     if not has_news(rep):
         return
     L = [f"# Funding sources check – {rep['date']}", "",
@@ -185,7 +190,7 @@ def write_report(rep: dict) -> None:
         for i in rep["applied"]:
             L.append(f"- **{i['id']} {i['title']}**: {i['proposal']['summary']}")
             for k, v in i["proposal"]["changes"].items():
-                L.append(f"  - `{k}`: {i['before'].get(k)!r} → {v!r}  \n    evidence: “{i['proposal']['evidence'].get(k)}”")
+                L.append(f"    - `{k}`: {i['before'].get(k)!r} → {v!r}  \n    evidence: “{i['proposal']['evidence'].get(k)}”")
         L.append("")
     if rep["review"]:
         L += ["## Needs a human look", ""]
@@ -194,10 +199,14 @@ def write_report(rep: dict) -> None:
             L += [f"- {w}" for w in i["why"]]
             for u in i.get("urls", []):
                 L.append(f"- Source: {u}")
+            if i.get("fixes"):
+                L.append("- If the page confirms it, accept with:")
+                L += [f"    - `{c}`" for c in i["fixes"]]
+            L.append(f"- Checked and nothing to change? Run `set_field.bat {i['id']} --verified`")
             p = i.get("proposal")
             if p:
                 L.append(f"- Claude suggests (confidence {p['confidence']:.2f}): {p['summary']}")
-                L += [f"  - `{k}` → {v!r} (“{p['evidence'].get(k)}”)" for k, v in p["changes"].items()]
+                L += [f"    - `{k}` → {v!r} (“{p['evidence'].get(k)}”)" for k, v in p["changes"].items()]
             if i.get("diff"):
                 L += ["", "<details><summary>Text diff</summary>", "", "```diff", i["diff"], "```", "</details>"]
             L.append("")
@@ -212,7 +221,7 @@ def write_report(rep: dict) -> None:
     if rep["broken"]:
         L += ["## Sources failing repeatedly", ""]
         L += [f"- {b['id']}: {b['url']} – {b['error']} ({b['failures']} runs in a row)" for b in rep["broken"]]
-    (REPORTS / f"{rep['date']}.md").write_text("\n".join(L) + "\n")
+    (REPORTS / f"{rep['date']}.md").write_text("\n".join(L) + "\n", encoding="utf-8")
 
 
 def main(argv=None) -> int:
@@ -223,7 +232,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     today = date.fromisoformat(a.today) if a.today else date.today()
     rep = run(a.apply, a.only, today)
-    print(json.dumps(json.loads((REPORTS / "latest.json").read_text()), indent=1))
+    print(json.dumps(json.loads((REPORTS / "latest.json").read_text(encoding="utf-8")), indent=1))
     gh = os.environ.get("GITHUB_OUTPUT")
     if gh:
         with open(gh, "a") as f:

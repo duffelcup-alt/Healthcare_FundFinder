@@ -1,0 +1,42 @@
+HEALTHCARE FUND FINDER - running it on this laptop
+==================================================
+
+Everything runs from this folder. Nothing is sent anywhere except the
+scraper's visits to the official funding pages.
+
+1. OPEN THE FINDER
+   Double-click  open_finder.bat
+   The site opens in your browser. It works right away, even without Python.
+
+2. CHECK THE SOURCES FOR CHANGES
+   Double-click  update_data.bat
+   - The first time, it installs what it needs (needs Python, see below).
+   - It visits every official scheme page (takes a few minutes) and then opens
+     the "Data updates" page.
+   - The very first check only saves a copy of each page. Changes are
+     reported from the second check onwards.
+
+3. ACCEPT OR CHECK A CHANGE
+   The "Data updates" page lists what changed and gives you a ready command,
+   for example:   set_field.bat BR-02 status="Open"
+   To run it: open this folder in File Explorer, type  cmd  in the address
+   bar and press Enter, then paste the command and press Enter.
+   - Looked at a page and nothing needs changing?  set_field.bat BR-02 --verified
+   - See a scheme's current data:                  set_field.bat BR-02
+   The site is rebuilt automatically after each change.
+
+4. CHECK EVERY DAY AUTOMATICALLY (optional)
+   Double-click  schedule_daily.bat   (to stop: unschedule_daily.bat)
+   Runs at 09:00, or as soon as the laptop is on if it was off at 09:00.
+   Log of the last run: logs\last_run.log
+
+PYTHON
+   Needed for steps 2-4. If update_data.bat says Python is missing:
+   install it from https://www.python.org/downloads/ and tick
+   "Add python.exe to PATH" during installation. Then run update_data.bat again.
+
+WHERE THINGS ARE
+   data\schemes.json     the dataset (27 schemes)
+   sources.yaml          which pages are checked
+   reports\              one report per day with changes
+   site\public\          the website (index.html, updates.html)
