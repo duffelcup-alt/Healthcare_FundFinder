@@ -1,0 +1,156 @@
+{
+ "https://fin.belgium.be/de/privatpersonen/steuervorteile/start-up-scale-up-investieren-tax-shelter": {
+  "failures": 0,
+  "hash": "ae770c623f6acfe7",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://info.hub.brussels/en/guide/subsidies-entrepreneurs/external-consulting": {
+  "failures": 0,
+  "hash": "5ad5c57bce37badf",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://research.kuleuven.be/en/research-funding/support/calls/vlaio-bm-im": {
+  "failures": 0,
+  "hash": "8b3e3551f9954d78",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://startup.wallonie-entreprendre.be/en/startup-boost/": {
+  "failures": 0,
+  "hash": "182b640001f32324",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://vlaio.be/kmo-portefeuille": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://wallonie.be/fr/demarches/sinformer-sur-les-cheques-entreprises": {
+  "failures": 0,
+  "hash": "b007e2f32c204062",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.biovia.be/vlaio-funding": {
+  "failures": 0,
+  "hash": "26f5abd7f8c9f990",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.hda.belgium.be/en/services/innovation-project-funding": {
+  "failures": 0,
+  "hash": "3e2040f6dbb55a67",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.innoviris.brussels/program-calendar": {
+  "failures": 0,
+  "hash": "08269c90f7e593f8",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.innoviris.brussels/program/feasibility-studies": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.innoviris.brussels/program/joint-rd-project-call": {
+  "failures": 0,
+  "hash": "9e314ef7d693e3cd",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.innoviris.brussels/program/rd-projects": {
+  "failures": 0,
+  "hash": "414f1091dcb6c577",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.uhasselt.be/en/calls-research/detail/1770-vlaio-biovia-project-call-2026-2": {
+  "failures": 0,
+  "hash": "7fc031b2976c674a",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.vlaio.be/nl/nieuws/geen-nieuwe-indieningen-mogelijk-voor-kmo-groeisubsidie": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/nieuws/hervorming-kmo-portefeuille-vanaf-1-februari-2026-enkel-nog-advies-voor-cybersecurity": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/nieuws/hervorming-van-de-investeringsaftrek-vanaf-1-januari-2025": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/innovatieve-starterssteun/wat-houdt-innovatieve-starterssteun": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/gewijzigde-maatregelen": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/innovatieaftrek": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/maatregelen/onderzoeksproject-subsidie-voor-innovatie": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/maatregelen/ontwikkelingsproject-subsidie-voor-innovatie": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/maatregelen/strategische-transformatiesteun": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/maatregelen/tax-shelter-voor-startende-ondernemingen": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.vlaio.be/nl/subsidies-financiering/subsidiedatabank/maatregelen/vrijstelling-doorstorting-bedrijfsvoorheffing-voor-onderzoekers": {
+  "failures": 1,
+  "last_error": "HTTP 403"
+ },
+ "https://www.wallonie-entreprendre.be/en/news/funding/": {
+  "failures": 0,
+  "hash": "cded96d16f02bc4b",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.wallonie.be/fr/demarches/139046": {
+  "failures": 0,
+  "hash": "c8f46c72ddd08375",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.wallonie.be/fr/demarches/144123": {
+  "failures": 0,
+  "hash": "7e28173c468c4fec",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.wallonie.be/fr/demarches/144189": {
+  "failures": 0,
+  "hash": "21d51e697517c9c3",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.wallonie.be/fr/demarches/144224": {
+  "failures": 0,
+  "hash": "1e0e91262d0a8297",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ },
+ "https://www.wallonie.be/fr/demarches/repondre-un-appel-projets-dun-pole-de-competitivite": {
+  "failures": 0,
+  "hash": "353a79a182ca5240",
+  "last_error": null,
+  "last_ok": "2026-11-24"
+ }
+}

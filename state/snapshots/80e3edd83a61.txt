@@ -1,0 +1,51 @@
+In 2024, the HDA launched a call for innovative projects. The aim is to facilitate the development and management of data in the healthcare sector, improving the quality, affordability, prevention and targeting of healthcare for every citizen and every patient.
+After careful consideration and evaluation, four innovation projects were approved for funding. Below is a short description of each of the projects.
+For questions or more information, please contact us via
+innovation@hda.fgov.be
+.
+FHIN-LLM
+FHIN-LLM takes a major step in healthcare data management
+:
+The aim is to convert unstructured medical texts into structured data using standards such as SNOMED CT/OMOP, leveraging a combination of language models (LLMs) and an intelligent search strategy within relevant medical contexts. The outcome will be a prototype of Dutch-language medical letters related to coronary heart disease. Converting this data into a structured format will improve its quality and interoperability, making it more useful for analysis and clinical decision-making.
+Partners
+: AZ Delta, UZA, UZ Brussel, UZ Gent, RADar Learning & Innovation Centre AZ Delta, Belgian Health Data Agency.
+A hospital (network) data governance framework that works in practice.
+This project aims to create a policy framework for hospitals or hospital networks that protects patient data and follows the FAIR principles (Findable, Accessible, Interoperable, Reusable). The framework will be tested in real situations (use cases) at different healthcare organizations to show it works.
+A feasibility study will explore how this framework can be used in other healthcare institutions. The goal is to strengthen the HDA ecosystem and apply the standards promoted by the HDA in real life.
+Partners
+: Amaron, ZOL Genk, Maria Middelares Gent (for the E17 hospital network), and AZ Sint-Lucas Brugge.
+Would you like to help shape the governance framework by reviewing the project’s draft or final deliverables?
+Contact the HDA via
+Innovation@hda.fgov.be
+.
+MAGIC: AI speeds up access to clinical trials for children.
+The project aims to make it easier to find the best possible care for young patients.
+Searching manually for relevant clinical studies and results takes a lot of time, is inefficient, and often not realistic.
+A
+Generative AI platform
+reads the patient file—including unstructured data like doctor’s notes—searches national and international study databases, and links each patient profile to relevant clinical trials. For each study, a
+matching score
+is calculated, so doctors can quickly see which studies are the best fit.
+This approach helps children get faster access to innovative treatments and allows researchers and sponsors to recruit more efficiently.
+MAGIC
+will first be rolled out at
+UZ Gent
+, then across the entire
+Belgian Pediatric Clinical Research Network (BPCRN)
+, and may later be expanded to other areas.
+Partners:
+Universitair Ziekenhuis Gent, Monsana
+Anonymization Screening
+The ‘Anonymization Screening’ project is developing an AI tool trained to identify all direct references
+(such as name, national registry number, etc.)
+and indirect references
+(rare context or combination of clinical symptoms)
+to a patient
+.
+The final result is meant to be simple: for each document, the tool gives a binary verdict —
+“exportable” or “not exportable.”
+The tool will be made available
+free of charge
+.
+Partners:
+CU Saint-Luc, UCLouvain
