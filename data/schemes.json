@@ -118,7 +118,7 @@
   "de_minimis": null,
   "key_conditions": "Investor tax reduction capped at a 30% stake.",
   "source_url": "https://fin.belgium.be/de/privatpersonen/steuervorteile/start-up-scale-up-investieren-tax-shelter",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -185,7 +185,7 @@
   "de_minimis": null,
   "key_conditions": "Projects on health data use/governance.",
   "source_url": "https://www.hda.belgium.be/en/services/innovation-project-funding",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -318,7 +318,7 @@
   "de_minimis": null,
   "key_conditions": "At least 3 partners from medical biotech, medtech or digital health; must address an unmet medical need; 1-2 partner projects go directly to VLAIO.",
   "source_url": "https://www.biovia.be/vlaio-funding",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -356,7 +356,7 @@
   "de_minimis": null,
   "key_conditions": "PhD research carried out in close cooperation with a company.",
   "source_url": "https://research.kuleuven.be/en/research-funding/support/calls/vlaio-bm-im",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -390,7 +390,7 @@
   "de_minimis": null,
   "key_conditions": "Postdoc researchers transferring results to a company or setting up a spin-off.",
   "source_url": "https://research.kuleuven.be/en/research-funding/support/calls/vlaio-bm-im",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -520,7 +520,7 @@
   "de_minimis": null,
   "key_conditions": "Funds a Strategic Innovation Plan; health and integrated care is one of the strategic domains.",
   "source_url": "https://www.innoviris.brussels/program/rd-projects",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small"
@@ -551,7 +551,7 @@
   "de_minimis": null,
   "key_conditions": "Companies <3 years old get a subsidy (not an advance) even if already selling; must show ability to co-fund.",
   "source_url": "https://www.innoviris.brussels/program/rd-projects",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -584,7 +584,7 @@
   "de_minimis": null,
   "key_conditions": "At least one Brussels research organisation and one company with R&D activities in Brussels.",
   "source_url": "https://www.innoviris.brussels/program/joint-rd-project-call",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small",
@@ -650,7 +650,7 @@
   "de_minimis": null,
   "key_conditions": "Apply before costs are incurred; some sectors excluded.",
   "source_url": "https://info.hub.brussels/en/guide/subsidies-entrepreneurs/external-consulting",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro"
   ],
@@ -849,7 +849,7 @@
   "de_minimis": null,
   "key_conditions": "Not a grant: public investment, repayable or convertible into equity; Walloon start-ups.",
   "source_url": "https://startup.wallonie-entreprendre.be/en/startup-boost/",
-  "last_verified": "2026-11-23",
+  "last_verified": "2026-11-27",
   "sizes": [
    "micro",
    "small"
